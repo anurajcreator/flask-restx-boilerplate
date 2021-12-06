@@ -85,7 +85,7 @@ This is a boilerplate for any flask_restx application.
     - powercell
             > $env:FLASK_APP = "hello"
     
-    -cmd
+    - cmd
             > set FLASK_APP=hello
     
 - Initialise the database: **flask db init**
