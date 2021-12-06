@@ -1,5 +1,5 @@
 # Flask RestX Api Boilerplate
-Version 1.0  
+Version Flask 2.0  
   
 &nbsp;  
 
