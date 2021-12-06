@@ -38,7 +38,7 @@ This is a boilerplate for any flask_restx application.
 
     - sudo apt install python-as-python3
 
-**flask-run**
+>**flask-run**
 
     - bash
             $ export FLASK_APP=hello
@@ -55,13 +55,16 @@ This is a boilerplate for any flask_restx application.
             > flask run
             * Running on http://127.0.0.1:5000/
 
-**db-init**
+>**db-init**
+
     - flask db init
 
-**db-migrate**
+>**db-migrate**
+
     - flask db migrate
 
-**db-upgrade**
+>**db-upgrade**
+
     - flask db upgrade
 
 
