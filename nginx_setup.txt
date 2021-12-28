@@ -1,3 +1,42 @@
+***Install Python3***
+
+1. sudo apt install wget build-essential libreadline-gplv2-dev libncursesw5-dev \
+
+2. wget https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz
+
+3. tar xzf Python-3.9.1.tgz
+
+4. cd Python-3.9.1
+
+5. ./configure --enable-optimizations
+
+6. make -j 2
+
+7. sudo apt install python3-pip
+
+***Install Postgress***
+
+1. sudo apt-get install wget ca-certificates
+
+2. sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+
+3. wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+
+4. sudo apt-get update
+
+5. sudo apt-get install postgresql postgresql-contrib
+
+6. apt show postgresql
+
+7. sudo su - postgres
+
+8. psql 
+
+9. ALTER USER postgres WITH PASSWORD 'new_Password';
+
+10. CREATE DATABASE db_name;
+
+
 ***myproject is project name
 ++Installing Nginx++
 
@@ -68,7 +107,7 @@ If you receive any errors, be sure to resolve them before continuing with the tu
 
 ++Configuring Nginx to Proxy Requests++
 
-1.nano /etc/nginx/sites-available/myproject or nano /etc/nginx/sites-available/deafault
+1.nano /etc/nginx/sites-available/myproject or nano /etc/nginx/sites-available/default
 
 ->
 server {
