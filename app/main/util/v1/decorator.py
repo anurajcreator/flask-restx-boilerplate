@@ -32,7 +32,7 @@ def admin_token_required(f):
         
         role = token['role']
         if role != 'admin':
-            return apiresponse('false', 'Admin Access Required', 'Admin Access Required', 'null')
+            return apiresponse(False, 'Admin Access Required', 'Admin Access Required', 'null')
         
         return f(*args, **kwargs)
     

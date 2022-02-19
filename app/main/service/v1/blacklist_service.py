@@ -17,4 +17,4 @@ def save_token(token):
             }
             return apiresponse("fail",'Fail to Logout', str(e) , "null"), 200
     except Exception as e:
-        return apiresponse("false","Internal Server Error",str(e), "null"), 500
+        return apiresponse(False,"Internal Server Error",str(e), "null"), 500

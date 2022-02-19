@@ -135,6 +135,7 @@ class Notification:
             logging.info(f"Error sending notification: {e}")
             return apiresponse(False, "Error sending notification")
 
+    
 class Validation:
     @staticmethod
     def validate_email(email: str):
@@ -150,7 +151,7 @@ class Validation:
     @staticmethod       
     def validate_phone(phone: str):
         try:
-            if len(phone) == 10:
+            if len(phone) == 12:
                 try:
                     phone = int(phone)
                     return True
