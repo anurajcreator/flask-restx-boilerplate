@@ -3,9 +3,9 @@
 from flask_restx import Api
 from flask import Blueprint
 
-from app.main.controller.auth_controller import api as auth_ns
+from app.main.controller.v1.auth.auth_controller import api as auth_ns
 from app.main.config import authorizations, version
-from app.main.util.decorator import token_required
+from app.main.util.v1.decorator import token_required
 
 
 

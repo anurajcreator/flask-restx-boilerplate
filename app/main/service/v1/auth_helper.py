@@ -1,6 +1,6 @@
 from app.main.model.user import User
-from app.main.service.blacklist_service import save_token
-from app.main.util.apiResponse import apiresponse
+from app.main.service.v1.blacklist_service import save_token
+from app.main.util.v1.apiResponse import apiresponse
 from app.main import db
 
 import datetime

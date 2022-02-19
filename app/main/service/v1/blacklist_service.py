@@ -1,6 +1,6 @@
 from app.main import db 
 from app.main.model.blacklist import BlacklistToken
-from app.main.util.apiResponse import apiresponse
+from app.main.util.v1.apiResponse import apiresponse
 
 def save_token(token):
     try:

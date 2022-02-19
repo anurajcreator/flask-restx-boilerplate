@@ -1,0 +1,18 @@
+{   
+    "otp_signup_sms" : {
+        "message" :"Hi Your OTP is {otp}",
+        "type" : ["sms"]
+    },
+    "otp_signup_email" : {
+        "subject" : "OTP for Signup",
+        "message" :"Hi Your OTP is {otp}",
+        "type" : ["email"],
+        "html_template" : "notification.html"
+    },
+
+    "otp_login_sms" : {
+        "message" : "Hi Your OTP for Login is {otp}",
+        "type" : ["sms"]
+    }
+    
+}

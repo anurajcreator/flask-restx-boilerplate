@@ -1,12 +1,12 @@
-from app.main.util.decorator import token_required
+from app.main.util.v1.decorator import token_required
 from flask import request
 from flask_restx import Resource
 
-from app.main.service.auth_helper import Auth
-from app.main.util.authDto import AuthDto
+from app.main.service.v1.auth_helper import Auth
+from app.main.util.v1.authDto import AuthDto
 
-from ..util.decorator import token_required
-from ..service.auth_helper import Auth
+from ....util.v1.decorator import token_required
+from ....service.v1.auth_helper import Auth
 
 api = AuthDto.api 
 user_auth = AuthDto.user_auth
