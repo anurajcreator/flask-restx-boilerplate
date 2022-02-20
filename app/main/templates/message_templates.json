@@ -13,6 +13,13 @@
     "otp_login_sms" : {
         "message" : "Hi Your OTP for Login is {otp}",
         "type" : ["sms"]
+    },
+
+    "test" : {
+        "subject" : "Test Notification",
+        "message": "n/a",
+        "type": ["email", "sms"],
+        "html_template" : "notification.html"
     }
-    
+
 }

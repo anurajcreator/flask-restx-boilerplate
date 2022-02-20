@@ -1,7 +1,9 @@
+import threading
 from flask import render_template
 import requests
 from app.main.config import FAST2SMS_AUTH_HEADER, FAST2SMS_ROUTE, FAST2SMS_SENDER_ID, FAST2SMS_URL, notification_templates, MAILGUN_API_KEY, MAILGUN_MESSAGES_ENDPOINT, test_server_domain,MAILING_HOST
-import os
+import os, rq
+from redis import Redis
 import logging
 from app.main.util.v1.apiResponse import apiresponse
 from app.main.util.v1.database import save_db
@@ -71,11 +73,12 @@ class Notification:
         return message
 
     @staticmethod
-    def send_notification(template_name, data, reciever=None, credential=None):
+    def send_notification(template_name, data, receiver=None, credential=None, test=False):
         try:
+            
             template = notification_templates[template_name]
             
-            if reciever is None:
+            if receiver is None:
                 if 'email' in template['type'] and 'sms' in template['type']:
                     raise Exception("Reciever is required for both type of notification")
                 
@@ -83,27 +86,32 @@ class Notification:
                     raise Exception("Credential is required if reciver is not Provided")
                 
                 if template['type'] == 'email':
-                    reciever_email = credential
+                    receiver_email = credential
 
                 elif template['type'] == 'sms':
-                    reciever_phone = credential
+                    receiver_phone = credential
                 
                 else:
                     raise Exception("Invalid Notification Type")
             
             else:
-                reciever_email = reciever.email
-                reciever_phone = reciever.phone
+                receiver_email = receiver.email
+                receiver_phone = receiver.phone
+            if not test:
+                message = Notification.generate_message(template, data)
+            
+            elif test:
+                message = data['message']
 
-            message = Notification.generate_message(template, data)
+            
             
             for template_type in template['type']:
                 if template_type == 'email':
-                    if reciever:
+                    if receiver:
                         notification = Notification(
-                            user_id = reciever.id,
-                            user_role = reciever.role,
-                            target = reciever_email,
+                            user_id = receiver.id,
+                            user_role = receiver.role,
+                            target = receiver_email,
                             notification_type = template_type,
                             message = message,
                             status = 'pending'
@@ -111,22 +119,28 @@ class Notification:
 
                         save_db(notification)
                     html = render_template(template['html_template'], message=message)
-                    Email.send_email(reciever_email, template['subject'], html)
+
+                    queue = rq.Queue('generate-notifications', connection=Redis.from_url('redis://'))
+                    queue.enqueue('app.main.util.v1.notification_util.Email.send_email', receiver_email, template['subject'], html)
+                    logging.info(f"Add Email Notification to queue: {template_name}")
+                    Email.send_email()
 
                 elif template_type == 'sms':
-                    if reciever:
+                    if receiver:
                         notification = Notification(
-                            user_id = reciever.id,
-                            user_role = reciever.role,
-                            target = reciever_phone,
+                            user_id = receiver.id,
+                            user_role = receiver.role,
+                            target = receiver_phone,
                             notification_type = template_type,
                             message = message,
                             status = 'pending'
                         )
 
                         save_db(notification)
-
-                    Fast2SMS.send_sms(reciever_phone, message)
+                    queue = rq.Queue('generate-notifications', connection=Redis.from_url('redis://'))
+                    queue.enqueue('app.main.util.v1.notification_util.Fast2SMS.send_sms', receiver_phone, message)
+                    logging.info(f"Add SMS Notification to queue: {template_name}")
+                    
 
                 else:
                     raise Exception("Invalid Notification Type")
@@ -134,6 +148,23 @@ class Notification:
         except Exception as e:
             logging.info(f"Error sending notification: {e}")
             return apiresponse(False, "Error sending notification")
+
+    def add_notification_to_queue(template_name, data, receiver=None, credential=None, method='rq'):
+        try:
+
+            if method== 'rq':
+                queue = rq.Queue('generate-notifications', connection=Redis.from_url('redis://'))
+                queue.enqueue('app.main.util.v1.notification_util.Notification.send_notification', template_name, data, receiver, credential)
+                logging.info(f"Add Notification to queue: {template_name}")
+            elif method=='th':
+                th = threading.Thread(target=Notification.send_notification, args=(template_name, data, receiver, credential))
+                th.start()
+                logging.info(f"Create Notification thread: {template_name}")
+        except Exception as e:
+            logging.warn("Error Occured ")
+
+
+
 
     
 class Validation:
