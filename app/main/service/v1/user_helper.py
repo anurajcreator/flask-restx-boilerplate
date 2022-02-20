@@ -17,11 +17,11 @@ class User:
 
                 response = apiresponse("True", "Notification queued successfully!", None, data)
 
-                return response.__dict__, 200
+                return response, 200
             except Exception as e:
                 error = apiresponse("False", "Error Sending Notification", str(e), None)
-                return error.__dict__, 500
+                return error, 500
         except Exception as e:
             error = apiresponse("False", "Something went wrong", str(e), None)
-            return error.__dict__, 500
+            return error, 500
     
