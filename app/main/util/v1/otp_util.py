@@ -103,3 +103,17 @@ class OTPUtil:
 
         except Exception as e:
             log.error('OTP Gen : %s', str(e))
+
+    @staticmethod
+    def check_token(credential,token):
+        try:
+            payload = jwt.decode(token, key, algorithms=['HS256'])
+            if payload['credential'] == credential:
+                return True
+            else:
+                return 'Invalid Credential Token'
+
+        except jwt.ExpiredSignatureError:
+            return 'Signature expired. Please log in again.'
+        except  jwt.InvalidTokenError:
+            return 'Invalid token. Please log in again.'
