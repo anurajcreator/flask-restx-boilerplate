@@ -13,6 +13,11 @@ class OTPUtil:
         try:
             _otp = Otp.query.filter_by(credential = credential).filter_by(credential_type = credential_type).filter_by(otp_type = otp_type).filter_by(deleted_at = None).first()
             if _otp:
+
+                if otp.restrict_time > dt.datetime.utcnow():
+                    remaining_time = (otp.restrict_time - dt.datetime.utcnow()).minute
+                    return apiresponse(False, "Maximum Attempts reached, wait for {} minutes".format(remaining_time))
+
                 if _otp.expire_at < dt.datetime.utcnow():
                         otp = OTPUtil.generate_otp(credential)
                         _otp.otp = otp
@@ -39,7 +44,7 @@ class OTPUtil:
 
             save_db(_otp)
                 
-            return str(_otp.otp)
+            return apiresponse(True,None,None, str(_otp.otp)) 
 
 
         except Exception as e:
@@ -52,21 +57,22 @@ class OTPUtil:
             otp = Otp.query.filter_by(credential = credential).filter_by(otp_type = otp_type).filter_by(credential_type = credential_type).filter_by(deleted_at = None).first()
             
             if not otp:
-                return apiresponse(False, "No Record Found")
-            
+                return apiresponse(False, f"No Record Found for {credential_type} {credential}")
+
             if otp.expire_at < dt.datetime.utcnow():
-                return apiresponse(False, "Otp Expired")
+                return apiresponse(False, f"Otp Expired for {credential_type} {credential}")
             
             if otp.counter > 3:
                 otp.deleted_at = dt.datetime.utcnow()
                 save_db(otp)
-                return apiresponse(False, "Maximum Otp Limit exceded")  
+                return apiresponse(False, f"Maximum Otp Limit exceded for {credential_type} {credential}")  
             
             if Otp.check_otp(otp_num):
                 payload = {
                     'otp' : otp_num,
                     'credential' : credential,
-                    'verified_at' : str(dt.datetime.utcnow()),
+                    'verified_at' : dt.datetime.utcnow(),
+                    'exp' : dt.datetime.utcnow()+dt.timedelta(minutes=30),
                 }
 
                 token = jwt.encode(payload, key, algorithm='HS256')
@@ -78,7 +84,7 @@ class OTPUtil:
                 
             else:
                 otp.counter += 1
-                return apiresponse(False, "Wrong OTP Provided", None)
+                return apiresponse(False, f"Wrong OTP Provided for {credential_type} {credential}", None)
             
 
         except Exception as e:

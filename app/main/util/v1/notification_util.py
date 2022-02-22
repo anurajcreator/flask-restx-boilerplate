@@ -97,12 +97,19 @@ class Notification:
             else:
                 receiver_email = receiver.email
                 receiver_phone = receiver.phone
+            
             if not test:
-                message = Notification.generate_message(template, data)
+                if template_name == 'forget_password':
+                    email_message = Notification.generate_message(template, data[0])
+                    sms_message = Notification.generate_message(template, data[1])
+
+                else:   
+                    email_message = Notification.generate_message(template, data)
+                    sms_message = email_message
             
             elif test:
-                message = data['message']
-
+                email_message = data['message']
+                sms_message = email_message
             
             
             for template_type in template['type']:
@@ -113,12 +120,16 @@ class Notification:
                             user_role = receiver.role,
                             target = receiver_email,
                             notification_type = template_type,
-                            message = message,
+                            message = email_message,
                             status = 'pending'
                         )
 
                         save_db(notification)
-                    html = render_template(template['html_template'], message=message)
+
+                        html = render_template(template['html_template'], message=email_message, target = receiver.name)
+                    
+                    else:
+                        html = render_template(template['html_template'], message=email_message)
 
                     queue = rq.Queue('generate-notifications', connection=Redis.from_url('redis://'))
                     queue.enqueue('app.main.util.v1.notification_util.Email.send_email', receiver_email, template['subject'], html)
@@ -132,13 +143,13 @@ class Notification:
                             user_role = receiver.role,
                             target = receiver_phone,
                             notification_type = template_type,
-                            message = message,
+                            message = sms_message,
                             status = 'pending'
                         )
 
                         save_db(notification)
                     queue = rq.Queue('generate-notifications', connection=Redis.from_url('redis://'))
-                    queue.enqueue('app.main.util.v1.notification_util.Fast2SMS.send_sms', receiver_phone, message)
+                    queue.enqueue('app.main.util.v1.notification_util.Fast2SMS.send_sms', receiver_phone, sms_message)
                     logging.info(f"Add SMS Notification to queue: {template_name}")
                     
 
