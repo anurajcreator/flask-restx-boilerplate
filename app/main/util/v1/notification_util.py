@@ -186,7 +186,7 @@ class Validation:
             domain = email.split("@")[1]
             service = domain.split(".")[0]
             suffix = domain.split(".")[1]
-            return True
+            return email
         except Exception:
             return False
 
@@ -196,7 +196,7 @@ class Validation:
             if len(phone) == 12:
                 try:
                     phone = int(phone)
-                    return True
+                    return phone
                 except:
                     return False
             else:
