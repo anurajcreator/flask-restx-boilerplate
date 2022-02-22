@@ -134,7 +134,7 @@ class Notification:
                     queue = rq.Queue('generate-notifications', connection=Redis.from_url('redis://'))
                     queue.enqueue('app.main.util.v1.notification_util.Email.send_email', receiver_email, template['subject'], html)
                     logging.info(f"Add Email Notification to queue: {template_name}")
-                    Email.send_email()
+                    
 
                 elif template_type == 'sms':
                     if receiver:

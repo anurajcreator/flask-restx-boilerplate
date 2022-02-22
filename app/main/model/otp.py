@@ -14,7 +14,7 @@ class Otp(db.Model):
     otp_hash = db.Column(db.String, nullable=False)
     otp_type= db.Column(db.String,nullable=False)
     counter = db.Column(db.Integer,default=0,nullable=False) 
-    restriction_time = db.Column(db.DateTime, nullable = True)
+    restriction_time = db.Column(db.DateTime, default=datetime.datetime.utcnow(),nullable = True)
     expire_at = db.Column(db.DateTime, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
     updated_at = db.Column(db.DateTime, onupdate=datetime.datetime.utcnow())

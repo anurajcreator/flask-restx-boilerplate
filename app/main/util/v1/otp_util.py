@@ -39,7 +39,7 @@ class OTPUtil:
                     # user_id = user_obj.id,
                     # user_role = user_obj.role,
                     otp_type = otp_type,
-                    expire_at = dt.datetime.utcnow()+dt.timedelta(hours=6)
+                    expire_at = dt.datetime.utcnow()+dt.timedelta(minutes=30),
                 )
 
             save_db(_otp)
