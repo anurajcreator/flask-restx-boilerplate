@@ -14,20 +14,21 @@ class OTPUtil:
             _otp = Otp.query.filter_by(credential = credential).filter_by(credential_type = credential_type).filter_by(otp_type = otp_type).filter_by(deleted_at = None).first()
             if _otp:
 
-                if otp.restrict_time > dt.datetime.utcnow():
-                    remaining_time = (otp.restrict_time - dt.datetime.utcnow()).minute
-                    return apiresponse(False, "Maximum Attempts reached, wait for {} minutes".format(remaining_time))
+                if _otp.restriction_time:
+                    if _otp.restriction_time > dt.datetime.utcnow():
+                        remaining_time = (_otp.restriction_time - dt.datetime.utcnow()).minute
+                        return apiresponse(False, "Maximum Attempts reached, wait for {} minutes".format(remaining_time))
 
-                if _otp.expire_at < dt.datetime.utcnow():
-                        otp = OTPUtil.generate_otp(credential)
-                        _otp.otp = otp
+                # if _otp.expire_at < dt.datetime.utcnow():
+                #     otp = OTPUtil.generate_otp(credential)
+                #     _otp.otp = otp
     
                 if _otp.counter > 3:
-                    otp = OTPUtil.generate_otp()
-                    _otp.otp = otp
                     _otp.counter = 0
 
-                _otp.expire_at =  dt.datetime.utcnow()+dt.timedelta(hours=1)    
+                otp = OTPUtil.generate_otp()
+                _otp.otp = otp
+                _otp.expire_at =  dt.datetime.utcnow()+dt.timedelta(minutes=30)    
             
             else:
                 otp = OTPUtil.generate_otp()
@@ -39,12 +40,13 @@ class OTPUtil:
                     # user_id = user_obj.id,
                     # user_role = user_obj.role,
                     otp_type = otp_type,
-                    expire_at = dt.datetime.utcnow()+dt.timedelta(minutes=30),
+                    restriction_time = dt.datetime.utcnow(),
+                    expire_at = dt.datetime.utcnow()+dt.timedelta(minutes=30)
                 )
 
             save_db(_otp)
                 
-            return apiresponse(True,None,None, str(_otp.otp)) 
+            return apiresponse(True,None,None, str(otp)) 
 
 
         except Exception as e:
@@ -67,17 +69,18 @@ class OTPUtil:
                 save_db(otp)
                 return apiresponse(False, f"Maximum Otp Limit exceded for {credential_type} {credential}")  
             
-            if Otp.check_otp(otp_num):
+            if otp.check_otp(otp_num):
                 payload = {
                     'otp' : otp_num,
                     'credential' : credential,
-                    'verified_at' : dt.datetime.utcnow(),
+                    'iat': dt.datetime.utcnow(),
                     'exp' : dt.datetime.utcnow()+dt.timedelta(minutes=30),
                 }
 
                 token = jwt.encode(payload, key, algorithm='HS256')
                 otp.verified_at = dt.datetime.utcnow()
                 otp.deleted_at = dt.datetime.utcnow()
+                otp.otp_token = token
                 save_db(otp)
 
                 return apiresponse(True, "Otp verified", None, token)
@@ -95,7 +98,9 @@ class OTPUtil:
     def generate_otp():
         try:
             otp = int(dt.datetime.now().strftime("%f")) + random.randint(100000, 999999)
-            
+            while otp < 100000:
+                otp = int(dt.datetime.now().strftime("%f")) + random.randint(100000, 999999)
+
             while len(str(otp)) > 6:
                 otp = int(str(otp)[1:])
             
@@ -108,7 +113,11 @@ class OTPUtil:
     def check_token(credential,token):
         try:
             payload = jwt.decode(token, key, algorithms=['HS256'])
+            
             if payload['credential'] == credential:
+                _otp = Otp.query.filter_by(credential = credential).filter_by(otp_token = token).filter_by(deleted_at = None).first()
+                if not _otp:
+                    return apiresponse(False, f"No Record Found for {credential} with token {token}")
                 return True
             else:
                 return 'Invalid Credential Token'

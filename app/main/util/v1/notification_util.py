@@ -193,9 +193,9 @@ class Validation:
     @staticmethod       
     def validate_phone(phone: str):
         try:
-            if len(phone) == 12:
+            if len(phone) == 10:
                 try:
-                    phone = int(phone)
+                    temp = int(phone)
                     return phone
                 except:
                     return False
