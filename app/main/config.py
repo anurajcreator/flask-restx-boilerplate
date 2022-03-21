@@ -42,6 +42,11 @@ download_dir= basedir.replace("/app/main","") + "/Downloads/"
 DATABASE_URL=os.getenv('DATABASE_URL') #Server
 SECURITY_PASSWORD_SALT = os.getenv('SECURITY_PASSWORD_SALT')
 SECRET_KEY = os.getenv('SECRET_KEY')
+MONGODB_SETTINGS = {
+    'db': 'anuaj',
+    'host': 'localhost',
+    'port': 27017
+}
 #END
 
 #OBJECT STORAGE CONFIG
@@ -79,6 +84,7 @@ class Config:
     TESTING = False
     CSRF_ENABLED = True
     SECRET_KEY = SECRET_KEY
+    MONGODB_SETTINGS = MONGODB_SETTINGS
     SQLALCHEMY_DATABASE_URI = DATABASE_URL
     SECURITY_PASSWORD_SALT = SECURITY_PASSWORD_SALT
     UPLOAD_FOLDER=UPLOAD_FOLDER
