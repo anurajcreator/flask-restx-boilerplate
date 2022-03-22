@@ -38,6 +38,10 @@ This is a boilerplate for any flask_restx application.
 
     - sudo apt install python-as-python3
 
+>**python-dotenv**
+
+    - pip install python-dotenv
+
 >**flask-run**
 
     - bash
@@ -45,12 +49,12 @@ This is a boilerplate for any flask_restx application.
             $ flask run
             * Running on http://127.0.0.1:5000/
     
-    - powercell
+    - powershell
             > $env:FLASK_APP = "hello"
             > flask run
             * Running on http://127.0.0.1:5000/
     
-    -cmd  
+    - cmd  
             > set FLASK_APP=hello
             > flask run
             * Running on http://127.0.0.1:5000/

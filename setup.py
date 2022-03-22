@@ -1,5 +1,8 @@
 import os, shutil, errno
 
+
+
+
 project_name  = input("Welcome to Boilerplate Setup:\nPlease name your project: >")
 
 src = os.path.dirname(os.path.abspath('setup.py')) + "/app"
@@ -30,6 +33,7 @@ try:
 except OSError as err:
     print("Error: % s" % err)
     error_oc = True
+
 
 if error_oc:
     print("Some error occured! Project might be broken!")

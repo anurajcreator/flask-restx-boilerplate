@@ -64,6 +64,10 @@ SERVICE_LOGGING_DIR=os.getenv('SERVICE_LOGGING')
 #END
 
 master_pass = os.getenv("MASTER_PASSWORD")
+encryption_password = os.getenv("ENCRYPTION_PASSWORD")
+initialization_vector = os.getenv("INITIALIZATION_VECTOR")
+encryption_status = os.getenv("ENCRYPTION_STATUS")
+KEY_PAIR_DIR = os.getenv("KEY_PAIR_DIR")
 
 item_per_page = [5,10,25,50,100]
 

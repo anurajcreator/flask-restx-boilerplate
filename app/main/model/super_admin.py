@@ -1,32 +1,70 @@
+import flask
 from .. import db, flask_bcrypt
 import datetime
 import jwt
 from app.main.model.blacklist import BlacklistToken
 from ..config import key
+from app.main.util.v1.encryption import Encryption
 
 class User(db.Model):
     """ User Model for storing user related details """
     __tablename__ = "user"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    email = db.Column(db.String(255), unique=True, nullable=False)
+    enc_email = db.Column(db.String(255), unique=True, nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False)
-    username = db.Column(db.String(50), unique=True)
-    password_hash = db.Column(db.String(100))
+    enc_username = db.Column(db.String(255), unique=True)
+    password_hash = db.Column(db.String(255))
 
+
+    #Static Properties
+    @property
+    def role(self):
+        return 'super_admin'
+
+    #Hashed Properties
     @property
     def password(self):
         raise AttributeError('password: write-only field')
 
+    
+    #Hashed Property Operators
     @password.setter
     def password(self, password):
-        self.password_hash = flask_bcrypt.generate_password_hash(password).decode('utf-8')
+        self.password_hash = flask_bcrypt.generate_password_hash(password)
 
     def check_password(self, password):
+
         return flask_bcrypt.check_password_hash(self.password_hash, password)
 
     def __repr__(self):
         return "<User '{}'>".format(self.username)
+
+    #Encrypted Properties
+    @property
+    def email(self):
+        return Encryption.decrypt_data(self.enc_email)
+
+    @property
+    def username(self):
+        return Encryption.decrypt_data(self.enc_username)
+
+    @email.setter
+    def email(self, email):
+        self.enc_email = Encryption.encrypt_data(email)
+    
+    @username.setter
+    def username(self, username):
+        self.enc_email = Encryption.encrypt_data(username)
+
+        
+
+
+
+
+
+
+
 
     def encode_auth_token(self, user_id):
         """
