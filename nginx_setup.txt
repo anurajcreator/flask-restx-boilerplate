@@ -133,7 +133,7 @@ server {
         # Add index.php to the list if you are using PHP
         #index index.html index.htm index.nginx-debian.html;
 
-        server_name domain;
+        server_name {domain};
 
         location / {
                 # First attempt to serve request as file, then
@@ -178,3 +178,16 @@ Your Flask Api is Deployed at server Ip
 
 SSL certificated added
 
+
+##restart.sh
+
+for updating code when git pull will be done
+
+1. nano restart.sh
+
+2.
+        systemctl restart myproject;
+        systemctl restart nginx;
+        sudo chmod 777 /var/www/myproject/myproject.sock;
+
+3. chmod +x restart.sh

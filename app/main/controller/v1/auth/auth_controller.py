@@ -11,6 +11,45 @@ from ....service.v1.auth_helper import Auth
 api = AuthDto.api 
 user_auth = AuthDto.user_auth
 _user_create = AuthDto.create_user
+send_otp = AuthDto.send_otp
+verify_sign_up_otp = AuthDto.verify_sign_up_otp
+forget_password = AuthDto.forget_password
+
+@api.route('/sign_up_otp/send')
+class SendSignUpOtp(Resource):
+    @api.doc('Send Signup OTP')
+    @api.expect(send_otp, validate=True)
+    def post(self):
+        """ Send Signup OTP """
+        data = request.json
+        return Auth.send_sign_up_otp(data)
+
+@api.route('/sign_up_otp/verify')
+class VerifySignUpOtp(Resource):
+    @api.doc('Verify Signup OTP')
+    @api.expect(verify_sign_up_otp, validate=True)
+    def post(self):
+        """ Verify Signup OTP """
+        data = request.json
+        return Auth.verify_sign_up_otp(data)
+
+@api.route('/forget_password/send')
+class SendForgetPasswordOtp(Resource):
+    @api.doc('Send Forget Password OTP')
+    @api.expect(send_otp, validate=True)
+    def post(self):
+        """ Send Forget Password OTP """
+        data = request.json
+        return Auth.send_forget_password_otp(data)
+
+@api.route('/forget_password/verify')
+class VerifyForgetPasswordOtp(Resource):
+    @api.doc('Verify Forget Password OTP')
+    @api.expect(forget_password, validate=True)
+    def post(self):
+        """ Verify Forget Password OTP """
+        data = request.json
+        return Auth.verify_forget_password_otp(data)
 
 @api.route('/login')
 class UserLogin(Resource):
@@ -34,14 +73,8 @@ class LogoutAPI(Resource):
     @api.doc(security='apikey')
     @token_required
     def post(self):
-
-        #get auth token
-        
-        # auth_header = request.headers.get('Authorization')
-
         return Auth.logout_user(request)
-        """Logs out the current user """
-        return Auth.logout_user(request)
+       
 
 
 @api.route('/register')

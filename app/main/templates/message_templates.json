@@ -4,8 +4,22 @@
         "type" : ["sms"]
     },
     "otp_signup_email" : {
-        "subject" : "OTP for Signup",
+        "subject" : "THE HEALTH APP Email Verification",
         "message" :"Hi Your OTP is {otp}",
+        "type" : ["email"],
+        "html_template" : "sign_up_otp.html"
+    },
+
+    "otp_forget_password" : {
+        "subject" : "THE HEALTH APP Forget Password",
+        "message" :"Hi Your OTP is {otp}",
+        "type" : ["email","sms"],
+        "html_template" : "notification.html"
+    },
+
+    "forget_password_success" :{
+        "subject" : "Password Changed Successfully",
+        "message" :"Your Password Changed Successfully",
         "type" : ["email"],
         "html_template" : "notification.html"
     },
@@ -13,13 +27,6 @@
     "otp_login_sms" : {
         "message" : "Hi Your OTP for Login is {otp}",
         "type" : ["sms"]
-    },
-
-    "test" : {
-        "subject" : "Test Notification",
-        "message": "n/a",
-        "type": ["email", "sms"],
-        "html_template" : "notification.html"
     }
-
+    
 }
