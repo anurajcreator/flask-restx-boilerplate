@@ -53,11 +53,6 @@ class User(db.Model):
 
     
 
-
-
-
-
-
     def encode_auth_token(self):
         """
         Generates the Auth token
@@ -70,7 +65,6 @@ class User(db.Model):
                 'id': self.id,
                 'role': self.role
             }
-            # print(payload)
             auth_token = jwt.encode(payload,key,algorithm='HS256')
             return auth_token
         except Exception as e:
