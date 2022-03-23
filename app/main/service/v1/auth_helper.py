@@ -7,11 +7,14 @@ from app.main import db
 from app.main.config import key
 import datetime
 from app.main.util.v1.database import save_db
-
 from app.main.util.v1.notification_util import Notification, Validation
 from app.main.util.v1.otp_util import OTPUtil
 
 class Auth:
+
+    user_class = {
+        'user' : User
+    }
 
     @staticmethod
     def get_user(id , role):
@@ -23,16 +26,14 @@ class Auth:
     def login_user(data):
         try:
             # fetch the user data
-            user = User.query.filter_by(email=data.get('email')).first()
+            user = Auth.user_class[data['role']].query.filter_by(email=data['email']).first()
             if not user:
-                user = User.query.filter_by(username=data.get('email')).first()
+                user = User.query.filter_by(username=data['email']).first()
             if user: 
-                if user.check_password(data.get('password')):
-                    auth_token = user.encode_auth_token(user.id)
+                if user.check_password(data['password']):
+                    auth_token = user.encode_auth_token()
                     if auth_token:
                         data = {
-                            'username': user.username,
-                            'email':user.email, 
                             'Authorization': auth_token
                         }
                         return apiresponse(True,'Successfully logged in', None, data, encryption=True), 200
@@ -50,7 +51,7 @@ class Auth:
         try:
             # print(auth_token)
             if auth_token:
-                resp = User.decode_auth_token(auth_token)
+                resp = Auth.decode_auth_token(auth_token)
                 if not isinstance(resp, str):
                     # mark the token as blacklisted
                     return save_token(token=auth_token)
@@ -68,11 +69,11 @@ class Auth:
             auth_token = new_request.headers.get('Authorization')
             # print(auth_token)
             if auth_token:
-                resp = User.decode_auth_token(auth_token)
+                resp = Auth.decode_auth_token(auth_token)
                 if not isinstance(resp, str):
-                    user = User.query.filter_by(id=resp).first()
+                    user = Auth.user_class[resp['role']].query.filter_by(id=resp['id']).first()
                     data = {
-                        'username': user.username,
+                        'name': user.name,
                         'email' : user.email,
                         'role': user.role,
                         'registered_on': str(user.registered_on)
@@ -83,46 +84,6 @@ class Auth:
                 return apiresponse(False,'Invalid User Please Login First', 'Provide a valid auth token', None),401
         except Exception as e:
             return apiresponse(False,"Internal Server Error",str(e), None), 500
-
-    @staticmethod
-    def save_new_user(data):
-        try:
-            user = User.query.filter_by(email=data['email']).first()
-            if user:
-                return apiresponse(False,"User with same email allready exists","User with same email allready exists",None), 409
-            else:
-                user = User.query.filter_by(username=data['username']).first()
-                if user:
-                    return apiresponse(False, "User with same Username allready exists","User with same Username allready exists",None), 409
-                else:
-                    new_user = User(
-                        email=data['email'],
-                        username=data['username'],
-                        password=data['password'],
-                        registered_on=datetime.datetime.utcnow()
-                    )
-                   
-                    save_db(new_user)
-                    return Auth.generate_token(new_user)
-
-        
-        except Exception as e:
-            return apiresponse(False,"Internal Server Error",str(e),None, encryption=True), 500
-
-    def generate_token(user):
-        try:
-            #genarate the auth token
-            auth_token = user.encode_auth_token(user.id)
-            data = {
-                    'username': user.username,
-                    'email':user.email,
-                    'role' : user.role,
-                    'id' : user.id, 
-                    'Authorization': auth_token
-                    }
-            return apiresponse(True,'Successfully Registered', None, data, encryption=True), 200
-        except Exception as e:
-            return apiresponse(False, "Some Error Occurred. Please Try Again",str(e)), 401  
     
     def decode_auth_token(auth_token):
         """
