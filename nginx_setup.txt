@@ -191,3 +191,5 @@ for updating code when git pull will be done
         sudo chmod 777 /var/www/myproject/myproject.sock;
 
 3. chmod +x restart.sh
+
+

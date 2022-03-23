@@ -60,10 +60,27 @@ def str_to_time(data):
     
     return_time = time(n_time[0],n_time[1])
     return return_time
-    
-def daterange(start_date, end_date):
-    for n in range(int((end_date - start_date).days)):
-        yield start_date + timedelta(n)
+
+def datetime_to_str(datetime):
+    if datetime:
+        if datetime.day < 10 :
+            day = "0" + str(datetime.day)
+        else:
+            day = str(datetime.day)
+        if datetime.month <10 :
+            month = "0" + str(datetime.month)
+        else:
+            month = str(datetime.month)
+        return day + "-" + month + "-" + str(datetime.year) + " " + time_to_str(datetime.time())
+    else:
+        return ""
+
+
+def if_datetime(data):
+    if data:
+        return datetime_to_str(data)
+    else:
+        return None
 
 def if_date(data):
     if data:
@@ -76,3 +93,7 @@ def if_time(time):
         return time_to_str(time)
     else:
         return None
+
+def daterange(start_date, end_date):
+    for n in range(int((end_date - start_date).days)):
+        yield start_date + timedelta(n)

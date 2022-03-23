@@ -75,15 +75,3 @@ class LogoutAPI(Resource):
     def post(self):
         return Auth.logout_user(request)
        
-
-
-@api.route('/register')
-class UserRegister(Resource):
-    @api.response(201, 'User successfully created.')
-    @api.response(409, 'User already exists. Please Log in.')
-    @api.doc('Register a New User')
-    @api.expect(_user_create,validate=True)
-    def post(self):
-        """Creates a new User """
-        data = request.json
-        return Auth.save_new_user(data=data)

@@ -132,8 +132,9 @@ class Notification:
                     else:
                         html = render_template(template['html_template'], message=email_message)
 
-                    queue = rq.Queue('generate-notifications', connection=Redis.from_url('redis://'))
-                    queue.enqueue('app.main.util.v1.notification_util.Email.send_email', receiver_email, template['subject'], html)
+                    # queue = rq.Queue('generate-notifications', connection=Redis.from_url('redis://'))
+                    # queue.enqueue('app.main.util.v1.notification_util.Email.send_email', receiver_email, template['subject'], html)
+                    print("email : " + email_message)
                     logging.info(f"Add Email Notification to queue: {template_name}")
                     
 
@@ -149,8 +150,9 @@ class Notification:
                         )
 
                         save_db(notification)
-                    queue = rq.Queue('generate-notifications', connection=Redis.from_url('redis://'))
-                    queue.enqueue('app.main.util.v1.notification_util.Fast2SMS.send_sms', receiver_phone, sms_message)
+                    # queue = rq.Queue('generate-notifications', connection=Redis.from_url('redis://'))
+                    # queue.enqueue('app.main.util.v1.notification_util.Fast2SMS.send_sms', receiver_phone, sms_message)
+                    print("sms : " + sms_message)
                     logging.info(f"Add SMS Notification to queue: {template_name}")
                     
 

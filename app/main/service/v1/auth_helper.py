@@ -36,7 +36,7 @@ class Auth:
                         data = {
                             'Authorization': auth_token
                         }
-                        return apiresponse(True,'Successfully logged in', None, data, encryption=True), 200
+                        return apiresponse(True,'Successfully logged in', None, data), 200
                 else:
                     return apiresponse(False,'Email or Password does not match.', "Email or Password does not match.", None), 401
             else:
@@ -72,13 +72,8 @@ class Auth:
                 resp = Auth.decode_auth_token(auth_token)
                 if not isinstance(resp, str):
                     user = Auth.user_class[resp['role']].query.filter_by(id=resp['id']).first()
-                    data = {
-                        'name': user.name,
-                        'email' : user.email,
-                        'role': user.role,
-                        'registered_on': str(user.registered_on)
-                    }
-                    return apiresponse(True, 'Logged in User Found',None ,data), 200
+                    return apiresponse(True, 'Logged in User Found',None ,user), 200
+
                 return apiresponse(False, 'Invalid User Please Login First', resp, None), 401
             else:
                 return apiresponse(False,'Invalid User Please Login First', 'Provide a valid auth token', None),401
@@ -121,7 +116,7 @@ class Auth:
                 email_otp = email_otp['data']
             
             else:
-                return email_otp, 400
+                return apiresponse(False, email_otp['message']), 400
 
             phone_otp = OTPUtil.get_otp(phone, 'phone', 'signup')
 
@@ -129,12 +124,13 @@ class Auth:
                 phone_otp = phone_otp['data']
             
             else:
-                return phone_otp, 400
+                 return apiresponse(False, phone_otp['message']), 400
 
             Notification.send_notification('otp_signup_email', {'otp': email_otp},None, email)
             Notification.send_notification('otp_signup_phone', {'otp': phone_otp},None, phone)
 
-            return apiresponse(True, 'OTP sent Successfully', None, None), 200
+            # return apiresponse(True, 'OTP sent Successfully', None, None), 200
+            return apiresponse(True, 'OTP sent Successfully', None, {'email_otp' : email_otp, 'phone_otp' : phone_otp}), 200
 
         except Exception as e:
             return apiresponse(False,"Internal Server Error",str(e), None), 500
@@ -156,14 +152,14 @@ class Auth:
                 email_token = email_otp['data']
             
             else:
-                return email_otp, 400
+                return apiresponse(False, email_otp['message']), 400
 
             phone_otp = OTPUtil.check_otp(data['phone_otp'],phone, 'phone', 'signup')
             if phone_otp['success'] == True:
                 phone_token = phone_otp['data']
             
             else:
-                return phone_otp, 400
+                return apiresponse(False, phone_otp['message']), 400
 
             return apiresponse(True, 'OTP Verified Successfully', None, {'email_token' : email_token, 'phone_token' : phone_token}), 200
 
@@ -188,7 +184,7 @@ class Auth:
                 email_otp = email_otp['data']
             
             else:
-                return email_otp, 400
+                return apiresponse(False, email_otp['message']), 400
 
             phone_otp = OTPUtil.get_otp(phone, 'phone', 'forget_password')
 
@@ -196,7 +192,7 @@ class Auth:
                 phone_otp = phone_otp['data']
             
             else:
-                return phone_otp, 400
+                return apiresponse(False, phone_otp['message']), 400
 
             user = Auth.user_class[data['user_role']].query.filter_by(email=email).filter_by(phone=phone).filter_by(deleted_at = None).first()
 
@@ -206,7 +202,8 @@ class Auth:
             Notification.send_notification('otp_forget_password',[{'otp' : email_otp}, {'otp' : phone_otp}],user)
             
 
-            return apiresponse(True, 'OTP sent Successfully', None, None), 200
+            # return apiresponse(True, 'OTP sent Successfully', None, None), 200
+            return apiresponse(True, 'OTP sent Successfully', None, {'email_otp' : email_otp, 'phone_otp' : phone_otp}), 200
 
         except Exception as e:
             return apiresponse(False,"Internal Server Error",str(e), None), 500
@@ -228,14 +225,14 @@ class Auth:
                 email_token = email_otp['data']
             
             else:
-                return email_otp, 400
+                return apiresponse(False, email_otp['message']), 400
 
             phone_otp = OTPUtil.check_otp(data['phone_otp'],phone, 'phone', 'forget_password')
             if phone_otp['success'] == True:
                 phone_token = phone_otp['data']
             
             else:
-                return phone_otp, 400
+                return apiresponse(False, phone_otp['message']), 400
 
             user = Auth.user_class[data['user_role']].query.filter_by(email=email).filter_by(phone=phone).filter_by(deleted_at = None).first()
 

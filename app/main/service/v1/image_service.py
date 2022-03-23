@@ -36,8 +36,8 @@ def image_save(new_request, bucket_dir):
             
         
         resp, status = Auth.get_logged_in_user(request)
-        user_id = resp['data']['id']
-        user_role = resp['data']['role']
+        user_id = resp['data'].id
+        user_role = resp['data'].role
         file = data['image']
         
         if 'image' not in data:
@@ -99,9 +99,6 @@ def image_save(new_request, bucket_dir):
 
 def image_upload(filename, bucket_dir, name):
 
-    resp, data = Auth.get_logged_in_user(request)
-    user = resp['data']
-
     file_path = UPLOAD_FOLDER + f"/{filename}"
 
     if not os.path.exists(file_path) or not os.path.isfile(file_path):
@@ -134,17 +131,12 @@ def profle_pic_image_save(new_request, bucket_dir):
             return apiresponse(False, 'Image File Too Large', None), 413
         
         resp, status = Auth.get_logged_in_user(request)
-        user_name = resp['data']['name']
-        user_id = resp['data']['id']
-        user_role = resp['data']['role']
+        user_name = resp['data'].name
+        user_id = resp['data'].id
+        user_role = resp['data'].role
         file = data['image']
         
-        user_object = User.query.filter_by(id = user_id).first()
-        if user_object.deleted_at != None:
-            return apiresponse(False, 'User has been deleted', None), 400
-        
-        if not user_object.active:
-            return apiresponse(False, 'User has been deactivated', None), 400
+        user_object = resp['data']
 
         if 'image' not in data:
             message = 'No image part in the request'

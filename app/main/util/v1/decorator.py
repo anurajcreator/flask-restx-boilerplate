@@ -9,10 +9,10 @@ def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
 
-        response, status = Auth.get_logged_in_user(request)
-        token = response.get('data')
-        if token == None:
-            return response, status
+        resp, status = Auth.get_logged_in_user(request)
+        user = resp['data']
+        if user == None:
+            return resp, status
 
         return f(*args, **kwargs)
 
@@ -22,15 +22,13 @@ def admin_token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
 
-        response, status = Auth.get_logged_in_user(request)
-        print(response)
-        token = response.get('data')
-        print(token)
+        resp, status = Auth.get_logged_in_user(request)
+        user = resp['data']
         
-        if token == None:
-            return response, status
+        if user == None:
+            return resp, status
         
-        role = token['role']
+        role = user.role
         if role != 'admin':
             return apiresponse(False, 'Admin Access Required', 'Admin Access Required', None)
         
