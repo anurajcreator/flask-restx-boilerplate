@@ -45,7 +45,7 @@ class User(db.Model):
 
 
 
-    def encode_auth_token(self, user_id):
+    def encode_auth_token(self):
         """
         Generates the Auth token
         :return: string
@@ -54,7 +54,8 @@ class User(db.Model):
             payload = {
                 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1),
                 'iat': datetime.datetime.utcnow(),
-                'sub': user_id
+                'id': self.id,
+                'role': self.role
             }
             # print(payload)
             auth_token = jwt.encode(payload,key,algorithm='HS256')

@@ -11,7 +11,7 @@ def token_required(f):
 
         response, status = Auth.get_logged_in_user(request)
         token = response.get('data')
-        if token == 'null':
+        if token == None:
             return response, status
 
         return f(*args, **kwargs)
@@ -27,12 +27,12 @@ def admin_token_required(f):
         token = response.get('data')
         print(token)
         
-        if token == 'null':
+        if token == None:
             return response, status
         
         role = token['role']
         if role != 'admin':
-            return apiresponse(False, 'Admin Access Required', 'Admin Access Required', 'null')
+            return apiresponse(False, 'Admin Access Required', 'Admin Access Required', None)
         
         return f(*args, **kwargs)
     

@@ -9,12 +9,12 @@ def save_token(token):
             #insert the token
             db.session.add(blacklist_token)
             db.session.commit()
-            return apiresponse("success",'Successfuly logged out', 'null' , "null"), 200
+            return apiresponse("success",'Successfuly logged out', None , None), 200
         except Exception as e:
             response_object = {
                 'status':'fail',
                 'message':e
             }
-            return apiresponse("fail",'Fail to Logout', str(e) , "null"), 200
+            return apiresponse("fail",'Fail to Logout', str(e) , None), 200
     except Exception as e:
-        return apiresponse(False,"Internal Server Error",str(e), "null"), 500
+        return apiresponse(False,"Internal Server Error",str(e), None), 500

@@ -10,7 +10,6 @@ from flask_uploads import UploadSet,IMAGES
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 dotfile = dotenv.find_dotenv(filename='.env')
-
 env_file = dotenv.load_dotenv(dotfile)
 
 #MAIL GUN CONFIG
@@ -46,7 +45,7 @@ DATABASE_URL=os.getenv('DATABASE_URL') #Server
 SECURITY_PASSWORD_SALT = os.getenv('SECURITY_PASSWORD_SALT')
 SECRET_KEY = os.getenv('SECRET_KEY')
 MONGODB_SETTINGS = {
-    'db': 'anuaj',
+    'db': 'db_name',
     'host': 'localhost',
     'port': 27017
 }
@@ -84,6 +83,7 @@ if KEY_PAIR_DIR == "":
         except:
             print("Please specify key pair dir in .env")
             sys.exit(0)
+
 KEY_PAIR_CREATED = os.getenv("KEY_PAIR_CREATED")
 
 if KEY_PAIR_CREATED == 'False':
@@ -115,7 +115,7 @@ with open ('app/main/templates/message_templates.json', 'r+') as myfile:
     notification_templates = json.loads(myfile.read())
 
 class Config:
-    SECRET_KEY = os.getenv('SECRET_KEY', 'my_precious_secret_key')
+    SECRET_KEY = os.getenv('SECRET_KEY')
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True

@@ -35,14 +35,14 @@ class Auth:
                             'email':user.email, 
                             'Authorization': auth_token
                         }
-                        return apiresponse(True,'Successfully logged in', "null", data, encryption=True), 200
+                        return apiresponse(True,'Successfully logged in', None, data, encryption=True), 200
                 else:
-                    return apiresponse(False,'Email or Password does not match.', "Email or Password does not match.", "null"), 401
+                    return apiresponse(False,'Email or Password does not match.', "Email or Password does not match.", None), 401
             else:
-                return apiresponse(False,'User Not found.', "User Not found.", "null"), 404
+                return apiresponse(False,'User Not found.', "User Not found.", None), 404
 
         except Exception as e:
-            return apiresponse(False,'Try again',str(e), "null"), 500
+            return apiresponse(False,'Try again',str(e), None), 500
 
     @staticmethod
     def logout_user(new_request):
@@ -55,11 +55,11 @@ class Auth:
                     # mark the token as blacklisted
                     return save_token(token=auth_token)
                 else:
-                    return apiresponse(False,"Invalid User Please Login First", resp , "null"), 401
+                    return apiresponse(False,"Invalid User Please Login First", resp , None), 401
             else:
-                return apiresponse(False,'Invalid User Please Login First', 'Provide a valid auth token.' , "null"), 403
+                return apiresponse(False,'Invalid User Please Login First', 'Provide a valid auth token.' , None), 403
         except Exception as e:
-            return apiresponse(False,"Internal Server Error",str(e), "null"), 500
+            return apiresponse(False,"Internal Server Error",str(e), None), 500
     
     @staticmethod
     def get_logged_in_user(new_request):
@@ -77,23 +77,23 @@ class Auth:
                         'role': user.role,
                         'registered_on': str(user.registered_on)
                     }
-                    return apiresponse(True, 'Logged in User Found','null' ,data), 200
-                return apiresponse(False, 'Invalid User Please Login First', resp, 'null'), 401
+                    return apiresponse(True, 'Logged in User Found',None ,data), 200
+                return apiresponse(False, 'Invalid User Please Login First', resp, None), 401
             else:
-                return apiresponse(False,'Invalid User Please Login First', 'Provide a valid auth token', 'null'),401
+                return apiresponse(False,'Invalid User Please Login First', 'Provide a valid auth token', None),401
         except Exception as e:
-            return apiresponse(False,"Internal Server Error",str(e), "null"), 500
+            return apiresponse(False,"Internal Server Error",str(e), None), 500
 
     @staticmethod
     def save_new_user(data):
         try:
             user = User.query.filter_by(email=data['email']).first()
             if user:
-                return apiresponse(False,"User with same email allready exists","User with same email allready exists","null"), 409
+                return apiresponse(False,"User with same email allready exists","User with same email allready exists",None), 409
             else:
                 user = User.query.filter_by(username=data['username']).first()
                 if user:
-                    return apiresponse(False, "User with same Username allready exists","User with same Username allready exists","null"), 409
+                    return apiresponse(False, "User with same Username allready exists","User with same Username allready exists",None), 409
                 else:
                     new_user = User(
                         email=data['email'],
@@ -107,7 +107,7 @@ class Auth:
 
         
         except Exception as e:
-            return apiresponse(False,"Internal Server Error",str(e),"null", encryption=True), 500
+            return apiresponse(False,"Internal Server Error",str(e),None, encryption=True), 500
 
     def generate_token(user):
         try:
@@ -120,7 +120,7 @@ class Auth:
                     'id' : user.id, 
                     'Authorization': auth_token
                     }
-            return apiresponse(True,'Successfully Registered', "null", data, encryption=True), 200
+            return apiresponse(True,'Successfully Registered', None, data, encryption=True), 200
         except Exception as e:
             return apiresponse(False, "Some Error Occurred. Please Try Again",str(e)), 401  
     

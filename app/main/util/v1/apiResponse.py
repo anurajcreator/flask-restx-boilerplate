@@ -1,12 +1,11 @@
 from datetime import date,datetime
 import json
-from flask import request
 from app.main.config import response_encryption
 
 from app.main.util.v1.encryption import Encryption
 
 
-def apiresponse(success = "" ,message = "" ,error = 'null',data =  'null', encryption=bool(response_encryption)):
+def apiresponse(success = "" ,message = "" ,error = None,data =  None, encryption=bool(response_encryption)):
 
     response = {
         'success': success,
