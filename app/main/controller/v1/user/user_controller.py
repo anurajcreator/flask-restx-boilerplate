@@ -1,7 +1,8 @@
+from app.main.service.v1.auth_helper import Auth
 from app.main.util.v1.decorator import token_required
 from flask import request
 from flask_restx import Resource
-from app.main.util.v1.notification_util import Notification
+from app.main.util.v1.notification_util import TestNotification
 from app.main.util.v1.userDto import UserDto
 from ....util.v1.decorator import token_required
 
@@ -19,4 +20,4 @@ class UserLogin(Resource):
     @token_required
     @api.doc(security='apikey')
     def post(self):
-        return Notification.test_notification(data=request.json)
+        return TestNotification.test_notification(data=request.json, user=Auth.get_logged_in_user(request)[0]['data'])

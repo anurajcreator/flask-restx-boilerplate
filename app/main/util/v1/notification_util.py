@@ -5,7 +5,6 @@ from app.main.config import FAST2SMS_AUTH_HEADER, FAST2SMS_ROUTE, FAST2SMS_SENDE
 import os, rq
 from redis import Redis
 import logging
-from app.main.service.v1.auth_helper import Auth
 from app.main.util.v1.apiResponse import apiresponse
 from app.main.util.v1.database import save_db
 
@@ -177,10 +176,12 @@ class Notification:
         except Exception as e:
             logging.warn("Error Occured ")
 
-    def test_notification(data):
+class TestNotification:
+    @staticmethod
+    def test_notification(data, user):
         try:
-            resp, status = Auth.get_logged_in_user(request)
-            user = resp['data']
+            # resp, status = Auth.get_logged_in_user(request)
+            # user = resp['data']
 
             try:
                 Notification.send_notification("test", data, receiver=user,test=True)
