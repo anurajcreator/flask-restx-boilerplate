@@ -9,9 +9,18 @@ from Crypto.PublicKey import RSA
 # uncomment the line below for postgres database url from environment variable
 # postgres_local_base = os.environ['DATABASE_URL']
 
+
+
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 dotfile = dotenv.find_dotenv(filename='.env')
 env_file = dotenv.load_dotenv(dotfile)
+
+
+#Basic Info
+PROJECT_TITLE = os.getenv("TITLE")
+PROJECT_VERSION = os.getenv("VERSION")
+PROJECT_DESCRIPTION = os.getenv("DESCRIPTION")
 
 #MAIL GUN CONFIG
 mailing_domain=os.getenv("MAILING_DOMAIN")
