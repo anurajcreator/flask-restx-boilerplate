@@ -75,12 +75,15 @@ master_pass = os.getenv("MASTER_PASSWORD")
 response_encryption = os.getenv("RESPONSE_ENCRYPTION")
 DATABASE_KEY_PAIR_DIR = os.getenv("DATABASE_KEY_PAIR_DIR")
 RESPONSE_KEY_PAIR_DIR = os.getenv("RESPONSE_KEY_PAIR_DIR")
+
 if DATABASE_KEY_PAIR_DIR == "":
     try:
         dotenv.set_key(dotfile, 'DATABASE_KEY_PAIR_DIR', os.path.abspath(""))
+        DATABASE_KEY_PAIR_DIR = os.path.abspath("")
     except:
         try:
             dotenv.set_key(dotfile, 'DATABASE_KEY_PAIR_DIR', '/tmp/')
+            DATABASE_KEY_PAIR_DIR = os.path.abspath("/tmp")
         except:
             print("Please specify key pair dir in .env")
             sys.exit(0)
@@ -88,9 +91,11 @@ if DATABASE_KEY_PAIR_DIR == "":
 if RESPONSE_KEY_PAIR_DIR == "":
     try:
         dotenv.set_key(dotfile, 'RESPONSE_KEY_PAIR_DIR', os.path.abspath(""))
+        RESPONSE_KEY_PAIR_DIR = os.path.abspath("")
     except:
         try:
             dotenv.set_key(dotfile, 'RESPONSE_KEY_PAIR_DIR', '/tmp/')
+            RESPONSE_KEY_PAIR_DIR = os.path.abspath("/tmp")
         except:
             print("Please specify key pair dir in .env")
             sys.exit(0)
