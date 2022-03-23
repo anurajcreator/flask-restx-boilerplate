@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import json
 import dotenv
 from flask_uploads import UploadSet,IMAGES
+from Crypto.PublicKey import RSA
 
 # uncomment the line below for postgres database url from environment variable
 # postgres_local_base = os.environ['DATABASE_URL']
@@ -89,7 +90,7 @@ RESPONSE_KEY_PAIR_CREATED = os.getenv("RESPONSE_KEY_PAIR_CREATED")
 
 if DATABASE_KEY_PAIR_CREATED == 'False':
     try:
-        from Crypto.PublicKey import RSA
+        
         key = RSA.generate(2048)
         private_key = key.export_key()
         file_out = open(f"{DATABASE_KEY_PAIR_DIR}/db_private.pem", "wb")
@@ -107,7 +108,7 @@ if DATABASE_KEY_PAIR_CREATED == 'False':
 
 if RESPONSE_KEY_PAIR_CREATED == 'False':
     try:
-        from Crypto.PublicKey import RSA
+        
         key = RSA.generate(2048)
         private_key = key.export_key()
         file_out = open(f"{RESPONSE_KEY_PAIR_DIR}/rp_private.pem", "wb")
