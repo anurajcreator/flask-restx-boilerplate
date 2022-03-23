@@ -104,6 +104,7 @@ if KEY_PAIR_CREATED == 'False':
         dotenv.set_key(dotfile, 'KEY_PAIR_CREATED', 'True')
     except PermissionError:
         dotenv.set_key(dotfile, 'KEY_PAIR_CREATED', 'True')
+        dotenv.set_key(dotfile, 'KEY_PAIR_DIR', os.path.abspath(""))
     
 
 
