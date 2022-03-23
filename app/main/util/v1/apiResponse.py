@@ -17,7 +17,7 @@ def apiresponse(success = "" ,message = "" ,error = None,data =  None, encryptio
     if encryption == True:
 
     #  256 Bytes        32 Bytes      16 Bytes   16 Bytes
-       enc_session_key, enc_response, aes_nonce, response_tag = Encryption.encrypt_data(json.dumps(response).encode("utf-8"))
+       enc_session_key, enc_response, aes_nonce, response_tag = Encryption.encrypt_response(json.dumps(response).encode("utf-8"))
 
        return f"{str(enc_session_key)}{str(enc_response)}{str(aes_nonce)}{str(response_tag)}"
 

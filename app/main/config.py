@@ -72,9 +72,9 @@ SERVICE_LOGGING_DIR=os.getenv('SERVICE_LOGGING')
 
 master_pass = os.getenv("MASTER_PASSWORD")
 response_encryption = os.getenv("RESPONSE_ENCRYPTION")
-KEY_PAIR_DIR = os.getenv("KEY_PAIR_DIR")
-
-if KEY_PAIR_DIR == "":
+DATABASE_KEY_PAIR_DIR = os.getenv("DATABASE_KEY_PAIR_DIR")
+RESPONSE_KEY_PAIR_DIR = os.getenv("RESPONSE_KEY_PAIR_DIR")
+if DATABASE_KEY_PAIR_DIR == "":
     try:
         dotenv.set_key(dotfile, 'KEY_PAIR_DIR', os.path.abspath(""))
     except:
@@ -84,25 +84,44 @@ if KEY_PAIR_DIR == "":
             print("Please specify key pair dir in .env")
             sys.exit(0)
 
-KEY_PAIR_CREATED = os.getenv("KEY_PAIR_CREATED")
+DATABASE_KEY_PAIR_CREATED = os.getenv("DATABASE_KEY_PAIR_CREATED")
+RESPONSE_KEY_PAIR_CREATED = os.getenv("RESPONSE_KEY_PAIR_CREATED")
 
-if KEY_PAIR_CREATED == 'False':
+if DATABASE_KEY_PAIR_CREATED == 'False':
     try:
         from Crypto.PublicKey import RSA
         key = RSA.generate(2048)
         private_key = key.export_key()
-        file_out = open(f"{KEY_PAIR_DIR}/private.pem", "wb")
+        file_out = open(f"{DATABASE_KEY_PAIR_DIR}/db_private.pem", "wb")
         file_out.write(private_key)
         file_out.close()
 
         public_key = key.publickey().export_key()
-        file_out = open(f"{KEY_PAIR_DIR}/receiver.pem", "wb")
+        file_out = open(f"{DATABASE_KEY_PAIR_DIR}/db_receiver.pem", "wb")
         file_out.write(public_key)
         file_out.close()
-        dotenv.set_key(dotfile, 'KEY_PAIR_CREATED', 'True')
+        dotenv.set_key(dotfile, 'DATABASE_KEY_PAIR_CREATED', 'True')
     except PermissionError:
-        dotenv.set_key(dotfile, 'KEY_PAIR_CREATED', 'True')
-        dotenv.set_key(dotfile, 'KEY_PAIR_DIR', os.path.abspath(""))
+        dotenv.set_key(dotfile, 'DATABASE_KEY_PAIR_CREATED', 'True')
+        dotenv.set_key(dotfile, 'DATABASE_KEY_PAIR_DIR', os.path.abspath(""))
+
+if RESPONSE_KEY_PAIR_CREATED == 'False':
+    try:
+        from Crypto.PublicKey import RSA
+        key = RSA.generate(2048)
+        private_key = key.export_key()
+        file_out = open(f"{RESPONSE_KEY_PAIR_DIR}/rp_private.pem", "wb")
+        file_out.write(private_key)
+        file_out.close()
+
+        public_key = key.publickey().export_key()
+        file_out = open(f"{RESPONSE_KEY_PAIR_DIR}/rp_receiver.pem", "wb")
+        file_out.write(public_key)
+        file_out.close()
+        dotenv.set_key(dotfile, 'RESPONSE_KEY_PAIR_CREATED', 'True')
+    except PermissionError:
+        dotenv.set_key(dotfile, 'RESPONSE_KEY_PAIR_CREATED', 'True')
+        dotenv.set_key(dotfile, 'RESPONSE_KEY_PAIR_DIR', os.path.abspath(""))
     
 
 
