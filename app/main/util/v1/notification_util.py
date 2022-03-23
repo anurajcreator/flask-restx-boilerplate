@@ -1,10 +1,11 @@
 import threading
-from flask import render_template
+from flask import render_template, request
 import requests
 from app.main.config import FAST2SMS_AUTH_HEADER, FAST2SMS_ROUTE, FAST2SMS_SENDER_ID, FAST2SMS_URL, notification_templates, MAILGUN_API_KEY, MAILGUN_MESSAGES_ENDPOINT, test_server_domain,MAILING_HOST
 import os, rq
 from redis import Redis
 import logging
+from app.main.service.v1.auth_helper import Auth
 from app.main.util.v1.apiResponse import apiresponse
 from app.main.util.v1.database import save_db
 
@@ -174,6 +175,23 @@ class Notification:
         except Exception as e:
             logging.warn("Error Occured ")
 
+    def test_notification(data):
+        try:
+            resp, status = Auth.get_logged_in_user(request)
+            user = resp['data']
+
+            try:
+                Notification.send_notification("test", data, receiver=user,test=True)
+
+                response = apiresponse("True", "Notification queued successfully!", None, data)
+
+                return response, 200
+            except Exception as e:
+                error = apiresponse("False", "Error Sending Notification", str(e), None)
+                return error, 500
+        except Exception as e:
+            error = apiresponse("False", "Something went wrong", str(e), None)
+            return error, 500
 
 
 
