@@ -77,10 +77,20 @@ DATABASE_KEY_PAIR_DIR = os.getenv("DATABASE_KEY_PAIR_DIR")
 RESPONSE_KEY_PAIR_DIR = os.getenv("RESPONSE_KEY_PAIR_DIR")
 if DATABASE_KEY_PAIR_DIR == "":
     try:
-        dotenv.set_key(dotfile, 'KEY_PAIR_DIR', os.path.abspath(""))
+        dotenv.set_key(dotfile, 'DATABASE_KEY_PAIR_DIR', os.path.abspath(""))
     except:
         try:
-            dotenv.set_key(dotfile, 'KEY_PAIR_DIR', '/tmp/')
+            dotenv.set_key(dotfile, 'DATABASE_KEY_PAIR_DIR', '/tmp/')
+        except:
+            print("Please specify key pair dir in .env")
+            sys.exit(0)
+
+if RESPONSE_KEY_PAIR_DIR == "":
+    try:
+        dotenv.set_key(dotfile, 'RESPONSE_KEY_PAIR_DIR', os.path.abspath(""))
+    except:
+        try:
+            dotenv.set_key(dotfile, 'RESPONSE_KEY_PAIR_DIR', '/tmp/')
         except:
             print("Please specify key pair dir in .env")
             sys.exit(0)

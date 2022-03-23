@@ -62,5 +62,4 @@ venv
 .vscode
 migrations
 .env
-private.pem
-receiver.pem
+*.pem
