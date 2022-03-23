@@ -1,4 +1,5 @@
 import os
+import sys
 from dotenv import load_dotenv
 import json
 import dotenv
@@ -75,21 +76,34 @@ encryption_password = os.getenv("ENCRYPTION_PASSWORD")
 initialization_vector = os.getenv("INITIALIZATION_VECTOR")
 encryption_status = os.getenv("ENCRYPTION_STATUS")
 KEY_PAIR_DIR = os.getenv("KEY_PAIR_DIR")
+
+if KEY_PAIR_DIR == "":
+    try:
+        dotenv.set_key(dotfile, 'KEY_PAIR_DIR', os.path.abspath(""))
+    except:
+        try:
+            dotenv.set_key(dotfile, 'KEY_PAIR_DIR', '/tmp/')
+        except:
+            print("Please specify key pair dir in .env")
+            sys.exit(0)
 KEY_PAIR_CREATED = os.getenv("KEY_PAIR_CREATED")
 
 if KEY_PAIR_CREATED == 'False':
-    from Crypto.PublicKey import RSA
-    key = RSA.generate(2048)
-    private_key = key.export_key()
-    file_out = open(f"{KEY_PAIR_DIR}/private.pem", "wb")
-    file_out.write(private_key)
-    file_out.close()
+    try:
+        from Crypto.PublicKey import RSA
+        key = RSA.generate(2048)
+        private_key = key.export_key()
+        file_out = open(f"{KEY_PAIR_DIR}/private.pem", "wb")
+        file_out.write(private_key)
+        file_out.close()
 
-    public_key = key.publickey().export_key()
-    file_out = open(f"{KEY_PAIR_DIR}/receiver.pem", "wb")
-    file_out.write(public_key)
-    file_out.close()
-    dotenv.set_key(dotfile, 'KEY_PAIR_CREATED', 'True')
+        public_key = key.publickey().export_key()
+        file_out = open(f"{KEY_PAIR_DIR}/receiver.pem", "wb")
+        file_out.write(public_key)
+        file_out.close()
+        dotenv.set_key(dotfile, 'KEY_PAIR_CREATED', 'True')
+    except PermissionError:
+        dotenv.set_key(dotfile, 'KEY_PAIR_CREATED', 'True')
     
 
 

@@ -35,7 +35,7 @@ class Auth:
                             'email':user.email, 
                             'Authorization': auth_token
                         }
-                        return apiresponse(True,'Successfully logged in', "null", data), 200
+                        return apiresponse(True,'Successfully logged in', "null", data, encryption=True), 200
                 else:
                     return apiresponse(False,'Email or Password does not match.', "Email or Password does not match.", "null"), 401
             else:
@@ -99,7 +99,6 @@ class Auth:
                         email=data['email'],
                         username=data['username'],
                         password=data['password'],
-                        role = data['role'],
                         registered_on=datetime.datetime.utcnow()
                     )
                    
@@ -108,7 +107,7 @@ class Auth:
 
         
         except Exception as e:
-            return apiresponse(False,"Internal Server Error",str(e),"null"), 500
+            return apiresponse(False,"Internal Server Error",str(e),"null", encryption=True), 500
 
     def generate_token(user):
         try:
@@ -121,7 +120,7 @@ class Auth:
                     'id' : user.id, 
                     'Authorization': auth_token
                     }
-            return apiresponse(True,'Successfully Registered', "null", data), 200
+            return apiresponse(True,'Successfully Registered', "null", data, encryption=True), 200
         except Exception as e:
             return apiresponse(False, "Some Error Occurred. Please Try Again",str(e)), 401  
     

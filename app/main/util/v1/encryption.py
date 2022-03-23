@@ -2,7 +2,7 @@ from Crypto.PublicKey import RSA
 from Crypto.Random import get_random_bytes
 from Crypto.Cipher import AES, PKCS1_OAEP
 from Crypto.Util.Padding import pad, unpad
-from app.main.config import KEY_PAIR_DIR, initialization_vector
+from app.main.config import KEY_PAIR_DIR
 
 class Encryption:
 

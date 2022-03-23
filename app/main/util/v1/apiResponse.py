@@ -8,18 +8,18 @@ from app.main.util.v1.encryption import Encryption
 def apiresponse(success = "" ,message = "" ,error = 'null',data =  'null', encryption=False ):
 
     response = {
-        "success": success,
-        "message": message,
-        "data": data,
-        "error": error,
+        'success': success,
+        'message': message,
+        'data': data,
+        'error': error,
     } 
 
     if encryption == True:
 
     #  256 Bytes        32 Bytes      16 Bytes   16 Bytes
-       enc_session_key, enc_response, aes_nonce, response_tag = Encryption.encrypt_data(json.loads(response).encode("utf-8"))
+       enc_session_key, enc_response, aes_nonce, response_tag = Encryption.encrypt_data(json.dumps(response).encode("utf-8"))
 
-       return f"{enc_session_key}{enc_response}{aes_nonce}{response_tag}"
+       return f"{str(enc_session_key)}{str(enc_response)}{str(aes_nonce)}{str(response_tag)}"
 
 
     return response
