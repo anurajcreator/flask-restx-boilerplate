@@ -30,6 +30,10 @@ try:
     src = src = os.path.dirname(os.path.abspath('setup.py')) + "/requirements.txt"
     dest = path = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/requirements.txt"
     shutil.copy2(src, dest)
+
+    src = src = os.path.dirname(os.path.abspath('setup.py')) + "/.env.example"
+    dest = path = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/.env"
+    shutil.copy2(src, dest)
 except OSError as err:
     print("Error: % s" % err)
     error_oc = True
