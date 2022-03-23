@@ -72,7 +72,7 @@ SERVICE_LOGGING_DIR=os.getenv('SERVICE_LOGGING')
 #END
 
 master_pass = os.getenv("MASTER_PASSWORD")
-encryption_status = os.getenv("ENCRYPTION_STATUS")
+response_encryption = os.getenv("RESPONSE_ENCRYPTION")
 KEY_PAIR_DIR = os.getenv("KEY_PAIR_DIR")
 
 if KEY_PAIR_DIR == "":
