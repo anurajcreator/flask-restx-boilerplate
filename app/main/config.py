@@ -1,14 +1,16 @@
 import os
 from dotenv import load_dotenv
 import json
+import dotenv
 from flask_uploads import UploadSet,IMAGES
 
 # uncomment the line below for postgres database url from environment variable
 # postgres_local_base = os.environ['DATABASE_URL']
 
 basedir = os.path.abspath(os.path.dirname(__file__))
+dotfile = dotenv.find_dotenv(filename='.env')
 
-load_dotenv()
+env_file = dotenv.load_dotenv(dotfile)
 
 #MAIL GUN CONFIG
 mailing_domain=os.getenv("MAILING_DOMAIN")
@@ -73,6 +75,23 @@ encryption_password = os.getenv("ENCRYPTION_PASSWORD")
 initialization_vector = os.getenv("INITIALIZATION_VECTOR")
 encryption_status = os.getenv("ENCRYPTION_STATUS")
 KEY_PAIR_DIR = os.getenv("KEY_PAIR_DIR")
+KEY_PAIR_CREATED = os.getenv("KEY_PAIR_CREATED")
+
+if KEY_PAIR_CREATED == 'False':
+    from Crypto.PublicKey import RSA
+    key = RSA.generate(2048)
+    private_key = key.export_key()
+    file_out = open(f"{KEY_PAIR_DIR}/private.pem", "wb")
+    file_out.write(private_key)
+    file_out.close()
+
+    public_key = key.publickey().export_key()
+    file_out = open(f"{KEY_PAIR_DIR}/receiver.pem", "wb")
+    file_out.write(public_key)
+    file_out.close()
+    dotenv.set_key(dotfile, 'KEY_PAIR_CREATED', 'True')
+    
+
 
 item_per_page = [5,10,25,50,100]
 
