@@ -14,6 +14,11 @@ class User(db.Model):
     registered_on = db.Column(db.DateTime, nullable=False)
     username = db.Column(db.String(255), nullable=False)
     password_hash = db.Column(db.String(100), nullable=False)
+    enc_private_1 = db.Column(db.BLOB)
+    private_1_skey = db.Column(db.BLOB)
+    private_1_nonce = db.Column(db.BLOB)
+    private_1_tag = db.Column(db.BLOB)
+
 
 
     #Static Properties
@@ -38,6 +43,14 @@ class User(db.Model):
 
 
     #Encrypted Properties
+    @property
+    def private_1(self):
+        return Encryption.decrypt_data(self.enc_private_1, self.private_1_skey, self.private_1_nonce, self.private_1_tag)
+
+    @private_1.setter
+    def private_1(self, private_1):
+        self.private_1_skey, self.enc_private_1, self.private_1_nonce, self.private_1_tag = Encryption.encrypt_data(private_1)
+
     
 
 
