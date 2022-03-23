@@ -25,7 +25,7 @@ try:
     dest = path = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/.gitignore" 
     shutil.copy2(src, dest)
     src = src = os.path.dirname(os.path.abspath('setup.py')) + "/manage.py"
-    dest = path = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/manage.py" 
+    dest = path = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/wsgi.py" 
     shutil.copy2(src, dest)
     src = src = os.path.dirname(os.path.abspath('setup.py')) + "/requirements.txt"
     dest = path = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/requirements.txt"
