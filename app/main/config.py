@@ -21,6 +21,7 @@ env_file = dotenv.load_dotenv(dotfile)
 PROJECT_TITLE = os.getenv("TITLE")
 PROJECT_VERSION = os.getenv("VERSION")
 PROJECT_DESCRIPTION = os.getenv("DESCRIPTION")
+PROJECT_ENVIRONMENT = os.getenv("FLASK_ENV")
 
 #MAIL GUN CONFIG
 mailing_domain=os.getenv("MAILING_DOMAIN")

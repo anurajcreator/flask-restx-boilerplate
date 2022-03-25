@@ -15,7 +15,7 @@ class Encryption:
         session_key = get_random_bytes(16)
 
         # Encrypt the session key with the public RSA key
-        cipher_rsa = PKCS1_OAEP.new(recipient_key)
+        cipher_rsa = PKCS1_OAEP.new(recipient_key, hashAlgo='Crypto.Hash.SHA256')
         enc_session_key = cipher_rsa.encrypt(session_key)
 
         # Encrypt the data with the AES session key
@@ -28,7 +28,7 @@ class Encryption:
     def decrypt_data(ciphertext, enc_session_key, nonce, tag):
         private_key = RSA.import_key(open(f"{DATABASE_KEY_PAIR_DIR}/db_private.pem").read())
 
-        cipher_rsa = PKCS1_OAEP.new(private_key)
+        cipher_rsa = PKCS1_OAEP.new(private_key, hashAlgo='Crypto.Hash.SHA256')
         session_key = cipher_rsa.decrypt(enc_session_key)
 
         cipher_aes = AES.new(session_key, AES.MODE_EAX, nonce)
@@ -46,7 +46,7 @@ class Encryption:
         session_key = get_random_bytes(16)
 
         # Encrypt the session key with the public RSA key
-        cipher_rsa = PKCS1_OAEP.new(recipient_key)
+        cipher_rsa = PKCS1_OAEP.new(recipient_key, hashAlgo='Crypto.Hash.SHA256')
         enc_session_key = cipher_rsa.encrypt(session_key)
 
         # Encrypt the data with the AES session key
