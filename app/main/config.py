@@ -1,6 +1,5 @@
 import os
 import sys
-from dotenv import load_dotenv
 import json
 import dotenv
 from flask_uploads import UploadSet,IMAGES
