@@ -1,6 +1,5 @@
 import os
 import sys
-from dotenv import load_dotenv
 import json
 import dotenv
 from flask_uploads import UploadSet,IMAGES
@@ -9,9 +8,19 @@ from Crypto.PublicKey import RSA
 # uncomment the line below for postgres database url from environment variable
 # postgres_local_base = os.environ['DATABASE_URL']
 
+
+
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 dotfile = dotenv.find_dotenv(filename='.env')
 env_file = dotenv.load_dotenv(dotfile)
+
+
+#Basic Info
+PROJECT_TITLE = os.getenv("TITLE")
+PROJECT_VERSION = os.getenv("VERSION")
+PROJECT_DESCRIPTION = os.getenv("DESCRIPTION")
+PROJECT_ENVIRONMENT = os.getenv("FLASK_ENV")
 
 #MAIL GUN CONFIG
 mailing_domain=os.getenv("MAILING_DOMAIN")
@@ -75,12 +84,15 @@ master_pass = os.getenv("MASTER_PASSWORD")
 response_encryption = os.getenv("RESPONSE_ENCRYPTION")
 DATABASE_KEY_PAIR_DIR = os.getenv("DATABASE_KEY_PAIR_DIR")
 RESPONSE_KEY_PAIR_DIR = os.getenv("RESPONSE_KEY_PAIR_DIR")
+
 if DATABASE_KEY_PAIR_DIR == "":
     try:
         dotenv.set_key(dotfile, 'DATABASE_KEY_PAIR_DIR', os.path.abspath(""))
+        DATABASE_KEY_PAIR_DIR = os.path.abspath("")
     except:
         try:
             dotenv.set_key(dotfile, 'DATABASE_KEY_PAIR_DIR', '/tmp/')
+            DATABASE_KEY_PAIR_DIR = os.path.abspath("/tmp")
         except:
             print("Please specify key pair dir in .env")
             sys.exit(0)
@@ -88,9 +100,11 @@ if DATABASE_KEY_PAIR_DIR == "":
 if RESPONSE_KEY_PAIR_DIR == "":
     try:
         dotenv.set_key(dotfile, 'RESPONSE_KEY_PAIR_DIR', os.path.abspath(""))
+        RESPONSE_KEY_PAIR_DIR = os.path.abspath("")
     except:
         try:
             dotenv.set_key(dotfile, 'RESPONSE_KEY_PAIR_DIR', '/tmp/')
+            RESPONSE_KEY_PAIR_DIR = os.path.abspath("/tmp")
         except:
             print("Please specify key pair dir in .env")
             sys.exit(0)

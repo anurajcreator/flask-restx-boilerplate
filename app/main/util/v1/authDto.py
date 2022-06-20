@@ -31,5 +31,5 @@ class AuthDto:
         'email': fields.String(required=True, description='user email address'),
         'username': fields.String(required=True, description='user username'),
         'password': fields.String(required=True, description='user password'),
-        'role': fields.String(required=True, description='user role')
+        'private_1': fields.String(required=True, description='user role')
     })

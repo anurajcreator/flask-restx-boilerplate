@@ -1,17 +1,18 @@
 from datetime import date,datetime
 import json
 from app.main.config import response_encryption
-
+from app.main.config import PROJECT_ENVIRONMENT
 from app.main.util.v1.encryption import Encryption
 
 
 def apiresponse(success = "" ,message = "" ,error = None,data =  None, encryption=bool(response_encryption)):
 
+    
     response = {
         'success': success,
         'message': message,
         'data': data,
-        'error': error,
+        'error': error if PROJECT_ENVIRONMENT=='development' else None,
     } 
 
     if encryption == True:
