@@ -1,18 +1,27 @@
+Debian 10
+
 ***Install Python3***
 
-1. sudo apt install wget build-essential libreadline-gplv2-dev libncursesw5-dev \
+sudo apt update && sudo apt upgrade 
 
-2. wget https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz
+sudo apt install wget build-essential libreadline-gplv2-dev libncursesw5-dev \
+     libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev
 
-3. tar xzf Python-3.9.1.tgz
 
-4. cd Python-3.9.1
+
+2. wget https://www.python.org/ftp/python/3.9.13/Python-3.9.13.tgz
+
+3. tar xzf Python-3.9.13.tgz
+
+4. cd Python-3.9.13
 
 5. ./configure --enable-optimizations
 
-6. make -j 2
+6.  make altinstall 
 
-7. sudo apt install python3-pip
+
+FOR FEDORA https://computingforgeeks.com/install-postgresql-13-on-fedora/
+
 
 ***Install Postgress***
 
@@ -63,7 +72,7 @@ vacuum = true
 
 
 die-on-term = true
-uwsgi --socket 0.0.0.0:5000 --protocol=http -w wsgi:app
+uwsgi --socket 0.0.0.0:5000 --protocol=http -w wgi:app
 
 +++Creating a systemd Unit File++
 
@@ -191,5 +200,7 @@ for updating code when git pull will be done
         sudo chmod 777 /var/www/myproject/myproject.sock;
 
 3. chmod +x restart.sh
+
+
 
 

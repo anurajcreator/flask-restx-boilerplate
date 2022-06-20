@@ -14,10 +14,10 @@ class User(db.Model):
     registered_on = db.Column(db.DateTime, nullable=False)
     username = db.Column(db.String(255), nullable=False)
     password_hash = db.Column(db.String(100), nullable=False)
-    enc_private_1 = db.Column(db.BLOB)
-    private_1_skey = db.Column(db.BLOB)
-    private_1_nonce = db.Column(db.BLOB)
-    private_1_tag = db.Column(db.BLOB)
+    enc_private_1 = db.Column(db.Unicode)
+    private_1_skey = db.Column(db.Unicode)
+    private_1_nonce = db.Column(db.Unicode)
+    private_1_tag = db.Column(db.Unicode)
 
 
 
