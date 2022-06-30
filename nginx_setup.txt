@@ -61,7 +61,7 @@ FOR FEDORA https://computingforgeeks.com/install-postgresql-13-on-fedora/
 
 ->
 [uwsgi]
-module = manage:app
+module = wsgi:app
 
 master = true
 processes = 5
@@ -70,9 +70,12 @@ socket = myproject.sock
 chmod-socket = 660
 vacuum = true
 
+#mount = /=wsgi.py
+#manage-script-name = true
+#single-interpreter = true
 
 die-on-term = true
-uwsgi --socket 0.0.0.0:5000 --protocol=http -w wgi:app
+
 
 +++Creating a systemd Unit File++
 
@@ -204,3 +207,4 @@ for updating code when git pull will be done
 
 
 
+virtualenv venv -p=C:\Users\anura\AppData\Local\Microsoft\WindowsApps\python3.9.exe
