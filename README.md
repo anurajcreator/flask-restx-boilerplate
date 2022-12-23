@@ -70,6 +70,10 @@ This is a boilerplate for any flask_restx application.
 >**db-upgrade**
 
     - flask db upgrade
+    
+>**db-stam head updated (allembic update)
+  
+    - flask db stamp head
 
 
 ### _How to get started_?  
