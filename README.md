@@ -25,10 +25,7 @@ This is a boilerplate for any flask_restx application.
 >**Python3**  
 
     - sudo apt install python3  
-
->**Virtualenv**  
-
-    - sudo apt install python3-virtualenv  
+  
 
 >**Pip**  
 
@@ -83,9 +80,8 @@ This is a boilerplate for any flask_restx application.
 - Run the setup file **python3 setup.py**
 - At the __Name of your Project:__ input box, type the **\<foldername\>** that you created
 - Cd into the folder **cd \<foldername\>**
-- Create the virtual environment: **virtualenv env**
-- Activate the environment: **source env/bin/activate**
-- Install the requirements: **pip install -r requirements.txt**
+- Run the file: **install.ps1**
+-
 - Set FLASK_APP: 
     - bash
             $ export FLASK_APP=hello
