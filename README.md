@@ -80,9 +80,9 @@ This is a boilerplate for any flask_restx application.
 - Clone the repository using **git clone https://github.com/anurajcreator/flask-restx-boilerplate**
 - Cd into the folder that you cloned **cd flask-restx-boilerplate/**
 - Run the setup file **python3 setup.py**
-    - Note
-    Please run the file using Python version 3.9.10 or below. Requirements and Dependencies used in the project are not compatible with higher versions of python. To run a code with a specific version of python, use VS Code's **"Select Interpreter"** function.
-    
+    - **Note:**
+        Please run the file using Python version 3.9.10 or below. Requirements and Dependencies used in the project are not compatible with higher versions of python. To run a code with a specific version of python, use VS Code's **"Select Interpreter"** function.
+
 - At the __Name of your Project:__ input box, type the **\<foldername\>** that you created
 - Cd into the folder **cd \<foldername\>**
 - Create the virtual environment: **virtualenv env**
