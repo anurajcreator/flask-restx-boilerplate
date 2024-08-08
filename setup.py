@@ -1,4 +1,4 @@
-import os, shutil, errno, subprocess
+import os, shutil, errno, subprocess, time, sys, itertools, threading
 
 POWERSHELL_PATH = "powershell.exe"
 
@@ -10,7 +10,7 @@ def setup_project():
     Required Parameters: Project Name
     '''
     print('''
-                        /$$$$$$$$/$$                     /$$                                  
+                         /$$$$$$$$/$$                     /$$                                  
                         | $$_____/ $$                    | $$                                  
                         | $$     | $$  /$$$$$$   /$$$$$$$| $$   /$$                            
                         | $$$$$  | $$ |____  $$ /$$_____/| $$  /$$/                            
@@ -34,7 +34,8 @@ def setup_project():
     | $$  \ $$| $$  | $$| $$| $$| $$_____/| $$     | $$  | $$| $$ /$$__  $$   | $$ /$$| $$_____/  
     | $$$$$$$/|  $$$$$$/| $$| $$|  $$$$$$$| $$     | $$$$$$$/| $$|  $$$$$$$   |  $$$$/|  $$$$$$$   
     |_______/  \______/ |__/|__/ \_______/|__/     | $$____/ |__/ \_______/    \___/   \_______/ 
-                                                                                                                                        
+                                                   | $$
+                                                   |_$$                                                                                     
     \n\n\n''')
     print("Welcome to Flask-RestX-Boilerplate Setup:")
     print("Please name your project: >")
@@ -94,15 +95,15 @@ def setup_project():
         
         src = os.path.dirname(os.path.abspath('setup.py')) + "/temp_file"
         dest = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/temp_file"
-        shutil.move(src, dest) 
+        shutil.copy2(src, dest) 
 
-        # print("Copying startup script (run.ps1). Please run post install.ps1 if it doesn't automatically run.")
+        print("Copying startup script (run.ps1). Please run post install.ps1 if it doesn't automatically run.")
         
 
-        # src = os.path.dirname(os.path.abspath('setup.py')) + "/run.ps1"
-        # dest = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/run.ps1"
-        # shutil.copy2(src, dest)
-        
+        src = os.path.dirname(os.path.abspath('setup.py')) + "/run.ps1"
+        dest = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/run.ps1"
+        shutil.copy2(src, dest)
+
     except OSError as err:
         print("Error: % s" % err)
         error_oc = True
@@ -141,6 +142,19 @@ def run_ps_script(script_path, *params):
     
 
 
+
+done = False
+def animate():
+    for c in itertools.cycle(["⢿", "⣻", "⣽", "⣾", "⣷", "⣯", "⣟", "⡿"]):
+        global done
+        if done:
+            break
+        sys.stdout.write('\rInstalling ... ' + c+ "  ")
+        sys.stdout.flush()
+        time.sleep(0.1)
+    sys.stdout.write('\rInstallation Done!     ')
+
+
 def main():
     try:
         project_name, setup_status = setup_project()
@@ -148,29 +162,39 @@ def main():
         if setup_status == False:
 
             print("Running Install Script... Please Wait!")
+            time.sleep(2)
             install_loc = os.path.dirname(os.path.abspath('setup.py'))
-            # install_loc = ""
-            # for item in install_script_list:
-            #     install_loc += str(item)+"\\"
+            
 
             install_loc+="\\install.ps1"
+            t = threading.Thread(target=animate)
+            t.start()
 
             install_status, install_error = run_ps_script(install_loc)
 
+            
+
             if install_status == "Success":
                 print("\n__________________________________________________________\nInstall Script Successfully Completed!\n__________________________________________________________\n")
+                global done
+                done = True
+                t.join()
                 print("Running Post-Install Test Script.... Please Wait!")
+                os.remove("temp_file")
                 run_loc = os.path.dirname(os.path.dirname(os.path.abspath('setup.py')))
-                # run_loc = ""
-                # for item in run_script_list:
-                #     run_loc += str(item)+"\\"
+                
 
                 run_loc+=f"\\{project_name}\\run.ps1"
 
+                done =  False
                 run_status, run_error = run_ps_script(run_loc)
 
                 if run_status == "Success":
+                    
                     print("\n__________________________________________________________\nPost Install has been successfully completed! You can run your project now!\n__________________________________________________________\n")
+                    os.remove(run_loc)
+                    
+                    
                 else:
                     print(f"\n__________________________________________________________\nPost Install has failed! You can't run your project! Please troubleshoot!\n{run_error}\n\n__________________________________________________________\n")
 
@@ -179,6 +203,8 @@ def main():
 
         else:
             print("\n__________________________________________________________\nProject Setup Failed!\n__________________________________________________________\n")
+
+        
 
     except Exception as e:
         print(f"\n__________________________________________________________\nSystem Error: \n{e}\n__________________________________________________________\n")
