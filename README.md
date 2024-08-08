@@ -80,10 +80,10 @@ This is a boilerplate for any flask_restx application.
     - **Note:**
         - Please run the file using Python version 3.9.10 or below. Requirements and Dependencies used in the project are not compatible with higher versions of python. To run a code with a specific version of python, use VS Code's **"Select Interpreter"** function.
 
-- At the __Name of your Project:__ input box, type the **\<foldername\>** that you created
+- At the __Name of your Project:__ input box, type the **\<foldername\>** that you want your project to be in.
 - Cd into the folder **cd \<foldername\>**
 - Run the file: **install.ps1**
--
+    - The files for linux systems will be coming soon.
 - Set FLASK_APP: 
     - bash
             $ export FLASK_APP=hello
