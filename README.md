@@ -90,9 +90,9 @@ This is a boilerplate for any flask_restx application.
     - The files for linux systems will be coming soon.
     - In case of an error like this:
     - > **File C:\Users\<Username>\<App Name>\install.ps1 cannot be loaded because the execution of scripts is disabled on this system. Please see "get-help about_signing" for more details.**
-    Run Powershell as an administrator and execute the following command:
+    - Run Powershell as an administrator and execute the following command:
     - > **set-executionpolicy remotesigned**
-    
+
 - Set FLASK_APP: 
     - bash
             $ export FLASK_APP=hello
