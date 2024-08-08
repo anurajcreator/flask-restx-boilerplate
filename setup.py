@@ -88,14 +88,14 @@ def setup_project():
         dest = path = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/install.ps1" 
         shutil.copy2(src, dest)
 
-        fp = open('filename', 'w')
-        fp.write(f'{project_name}')
+        fp = open('temp_file', 'w')
+        fp.write("")
         fp.close()
 
         print("Temporarily copying Project Name")
         sleep(2)
-        src = os.path.dirname(os.path.abspath('setup.py')) + "/filename"
-        dest = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/filename"
+        src = os.path.dirname(os.path.abspath('setup.py')) + "/temp_file"
+        dest = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/temp_file"
         shutil.copy2(src, dest) 
 
         print("Copying startup script (run.ps1). Please run post install.ps1 if it doesn't automatically run.")

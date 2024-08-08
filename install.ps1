@@ -1,4 +1,4 @@
-$content = Get-Content -Path filename
+$content = Get-Content -Path temp_file
 
 
 Set-Location $content
