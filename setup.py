@@ -110,7 +110,7 @@ def setup_project():
 
 
     if error_oc:
-        print("Some error occured! Project might be broken!")
+        print("Some error ocurred! Project might be broken!")
     else:
         print(f"All good! Project created in: ../{project_name}/")
 
