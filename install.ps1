@@ -1,14 +1,20 @@
-Param(
-    [Parameter(Mandatory=$True,Position=1)]
-    [string]$input_dir
-)
+$content = Get-Content -Path filename
 
-Set-Location ../newprojecttest
 
-virtualenv venv
+Set-Location $content
 
-./venv/Scripts/acticvate.ps1
+python -m pip install virtualenv
 
+python -m virtualenv venv
+
+./venv/Scripts/activate.ps1
+
+python -m pip install --upgrade pip
 python -m pip install -r .\requirements.txt
 
-virtualenv venv
+
+Remove-Item filename
+
+Remove-Item install.ps1
+
+./run.ps1
