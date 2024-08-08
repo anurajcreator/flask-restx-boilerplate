@@ -1,3 +1,29 @@
+                         /$$$$$$$$/$$                     /$$                                  
+                        | $$_____/ $$                    | $$                                  
+                        | $$     | $$  /$$$$$$   /$$$$$$$| $$   /$$                            
+                        | $$$$$  | $$ |____  $$ /$$_____/| $$  /$$/                            
+                        | $$__/  | $$  /$$$$$$$|  $$$$$$ | $$$$$$/                             
+                        | $$     | $$ /$$__  $$ \____  $$| $$_  $$                             
+                        | $$     | $$|  $$$$$$$ /$$$$$$$/| $$ \  $$                            
+                        |__/     |__/ \_______/|_______/ |__/  \__/                            
+                    /$$$$$$$                       /$$    /$$   /$$                       
+                    | $$__  $$                     | $$   | $$  / $$                       
+                    | $$  \ $$  /$$$$$$   /$$$$$$$/$$$$$$ |  $$/ $$/                       
+                    | $$$$$$$/ /$$__  $$ /$$_____/_  $$_/  \  $$$$/                        
+                    | $$__  $$| $$$$$$$$|  $$$$$$  | $$     >$$  $$                        
+                    | $$  \ $$| $$_____/ \____  $$ | $$ /$$/$$/\  $$                       
+                    | $$  | $$|  $$$$$$$ /$$$$$$$/ |  $$$$/ $$  \ $$                       
+                    |__/  |__/ \_______/|_______/   \___/ |__/  |__/                       
+    /$$$$$$$            /$$ /$$                              /$$              /$$               
+    | $$__  $$          |__/| $$                             | $$             | $$                
+    | $$  \ $$  /$$$$$$  /$$| $$  /$$$$$$   /$$$$$$  /$$$$$$ | $$  /$$$$$$   /$$$$$$    /$$$$$$    
+    | $$$$$$$  /$$__  $$| $$| $$ /$$__  $$ /$$__  $$/$$__  $$| $$ |____  $$ |_  $$_/   /$$__  $$ 
+    | $$__  $$| $$  \ $$| $$| $$| $$$$$$$$| $$  \__/ $$  \ $$| $$  /$$$$$$$   | $$    | $$$$$$$$  
+    | $$  \ $$| $$  | $$| $$| $$| $$_____/| $$     | $$  | $$| $$ /$$__  $$   | $$ /$$| $$_____/  
+    | $$$$$$$/|  $$$$$$/| $$| $$|  $$$$$$$| $$     | $$$$$$$/| $$|  $$$$$$$   |  $$$$/|  $$$$$$$   
+    |_______/  \______/ |__/|__/ \_______/|__/     | $$____/ |__/ \_______/    \___/   \_______/ 
+                                                   | $$
+                                                   |_$$                                                
 # Flask RestX Api Boilerplate
 Version Flask 2.0  
   
@@ -82,18 +108,31 @@ This is a boilerplate for any flask_restx application.
     - **Note:**
         - Please run the file using Python version 3.9.10 or below. Requirements and Dependencies used in the project are not compatible with higher versions of python. To run a code with a specific version of python, use VS Code's **"Select Interpreter"** function.
 
+- The setup will start to install the required dependencies for the project. This might take up to 5 minutes or more.
+
 - At the __Name your Project:__ input box, type the **\<foldername\>** that you want your project to be in.
-- Cd into the folder by
+
+- After installation, cd into the folder by
     - > **cd \<foldername\>**
-- Run the file: **install.ps1** by:
-    - > **./install.ps1**
+- Run the file: **run.ps1** by:
+    - > **./run.ps1**
     - The files for linux systems will be coming soon.
     - In case of an error like this:
-    - > **File C:\Users\<Username>\<App Name>\install.ps1 cannot be loaded because the execution of scripts is disabled on this system. Please see "get-help about_signing" for more details.**
+    - > **File C:\Users\<Username>\<App Name>\run.ps1 cannot be loaded because the execution of scripts is disabled on this system. Please see "get-help about_signing" for more details.**
     - Run Powershell as an administrator and execute the following command:
     - > **set-executionpolicy remotesigned**
 
-- Set FLASK_APP: 
+- Alternatively, the environment can be manually activated by:
+
+    - > **.\venv\Scripts\activate.ps1**
+
+- And the app can be run by:
+
+    - > **flask run**
+
+- The database and response encryption private keys will be generated. After testing the app on port 5000, **Ctrl + C** to close the server.
+
+- Set FLASK_APP(When no development env is created!): 
     - bash
             $ export FLASK_APP=hello
     
@@ -103,8 +142,12 @@ This is a boilerplate for any flask_restx application.
     - cmd
             > set FLASK_APP=hello
     
-- Initialise the database: **flask db init**
-- Migrate the database: **flask db migrate --message 'inital migration'**
-- Apply the migrations: **flask db upgrade**
-- Run: **flask run**
+- Initialise the database: 
+    - > **flask db init**
+- Migrate the database:
+    - >  **flask db migrate --message 'inital migration'**
+- Apply the migrations: 
+    - > **flask db upgrade**
+- Run: 
+    - > **flask run**
 
