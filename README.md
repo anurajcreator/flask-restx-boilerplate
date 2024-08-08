@@ -25,11 +25,11 @@
                                                    | $$
                                                    |_$$                                                
 # Flask RestX Api Boilerplate
-Version Flask 2.0  
+Flask Version: 2.0  
   
 &nbsp;  
 
-This is a boilerplate for any flask_restx application.  
+This is a boilerplate for any flask_restx api based web application backend. This has been developed as a passion project by **anurajcreator** and **Cybertronian123**.  
 
 
 ### What's included?  
@@ -106,7 +106,7 @@ This is a boilerplate for any flask_restx application.
 - Run the setup file by
     - >**python3 setup.py**
     - **Note:**
-        - Please run the file using Python version 3.9.10 or below. Requirements and Dependencies used in the project are not compatible with higher versions of python. To run a code with a specific version of python, use VS Code's **"Select Interpreter"** function.
+        - Please run the file using Python version 3.9.10 or below. Requirements and Dependencies used in the project are not compatible with higher versions of python. To run a code with a specific version of python, use VS Code's **"Select Interpreter"** function or edit the **PATH** System Environment Variable to include the preferred version on top of the list and restart your pc(Windows).
 
 - The setup will start to install the required dependencies for the project. This might take up to 5 minutes or more.
 
@@ -114,15 +114,8 @@ This is a boilerplate for any flask_restx application.
 
 - After installation, cd into the folder by
     - > **cd \<foldername\>**
-- Run the file: **run.ps1** by:
-    - > **./run.ps1**
-    - The files for linux systems will be coming soon.
-    - In case of an error like this:
-    - > **File C:\Users\<Username>\<App Name>\run.ps1 cannot be loaded because the execution of scripts is disabled on this system. Please see "get-help about_signing" for more details.**
-    - Run Powershell as an administrator and execute the following command:
-    - > **set-executionpolicy remotesigned**
 
-- Alternatively, the environment can be manually activated by:
+- The environment can be manually activated by:
 
     - > **.\venv\Scripts\activate.ps1**
 
@@ -150,4 +143,22 @@ This is a boilerplate for any flask_restx application.
     - > **flask db upgrade**
 - Run: 
     - > **flask run**
+
+
+### _Congratulations
+
+> **If you get the following output upon running:**
+
+    > flask run
+
+    * Environment: development
+    * Debug mode: on
+    * Debugger is active!
+    * Debugger PIN: 101-351-714
+    * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+
+
+Then you've successfully created your application. Thanks for using flask-restx-boilerplate
+
+
 
