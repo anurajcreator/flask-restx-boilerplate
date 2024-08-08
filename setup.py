@@ -51,29 +51,29 @@ except OSError as err:
 try:
     print("Making Git Repository")
     sleep(2)
-    src = src = os.path.dirname(os.path.abspath('setup.py')) + "/.gitignore"
-    dest = path = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/.gitignore" 
+    src =  os.path.dirname(os.path.abspath('setup.py')) + "/.gitignore"
+    dest =  os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/.gitignore" 
     shutil.copy2(src, dest)
     print("Copying WSGI Application")
     sleep(2)
-    src = src = os.path.dirname(os.path.abspath('setup.py')) + "/manage.py"
-    dest = path = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/wsgi.py" 
+    src =  os.path.dirname(os.path.abspath('setup.py')) + "/manage.py"
+    dest =  os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/wsgi.py" 
 
     print("Copying Requirements")
     sleep(2)
     shutil.copy2(src, dest)
-    src = src = os.path.dirname(os.path.abspath('setup.py')) + "/requirements.txt"
-    dest = path = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/requirements.txt"
+    src = os.path.dirname(os.path.abspath('setup.py')) + "/requirements.txt"
+    dest = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/requirements.txt"
     shutil.copy2(src, dest)
 
     print("Copying Environment Files")
     sleep(2)
-    src = src = os.path.dirname(os.path.abspath('setup.py')) + "/.env.example"
-    dest = path = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/.env"
+    src = os.path.dirname(os.path.abspath('setup.py')) + "/.env.example"
+    dest = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/.env"
     shutil.copy2(src, dest)
 
 
-    print("Setup Install Script. Please run install.ps1 post setup")
+    print("Setup Install Script. Please run install.ps1 post setup if it doesn't automatically run.")
     sleep(3)
     src = src = os.path.dirname(os.path.abspath('setup.py')) + "/install.ps1"
     dest = path = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/install.ps1" 
@@ -85,15 +85,15 @@ try:
 
     print("Temporarily copying Project Name")
     sleep(2)
-    src = src = os.path.dirname(os.path.abspath('setup.py')) + "/filename"
-    dest = path = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/filename"
+    src = os.path.dirname(os.path.abspath('setup.py')) + "/filename"
+    dest = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/filename"
     shutil.copy2(src, dest) 
 
-    print("Copying startup script (run.ps1)")
+    print("Copying startup script (run.ps1). Please run post install.ps1 if it doesn't automatically run.")
     sleep(2)
 
-    src = src = os.path.dirname(os.path.abspath('setup.py')) + "/run.ps1"
-    dest = path = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/run.ps1"
+    src = os.path.dirname(os.path.abspath('setup.py')) + "/run.ps1"
+    dest = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/run.ps1"
     shutil.copy2(src, dest)
 except OSError as err:
     print("Error: % s" % err)
