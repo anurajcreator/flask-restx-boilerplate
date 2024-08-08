@@ -192,7 +192,7 @@ def main():
                 if run_status == "Success":
                     
                     print("\n__________________________________________________________\nPost Install has been successfully completed! You can run your project now!\n__________________________________________________________\n")
-                    os.remove(run_loc)
+                    # os.remove(run_loc)
                     
                     
                 else:
