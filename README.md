@@ -154,7 +154,7 @@ This is a boilerplate for any flask_restx api based web application backend. Thi
     * Environment: development
     * Debug mode: on
     * Debugger is active!
-    * Debugger PIN: 101-351-714
+    * Debugger PIN: XXX-XXX-XXX
     * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 
 
