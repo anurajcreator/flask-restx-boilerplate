@@ -75,15 +75,24 @@ This is a boilerplate for any flask_restx application.
 
 ### _How to get started_?  
 - Clone the repository using **git clone https://github.com/anurajcreator/flask-restx-boilerplate**
-- Cd into the folder that you cloned **cd flask-restx-boilerplate/**
-- Run the setup file **python3 setup.py**
+- Cd into the folder that you cloned 
+    - >**cd flask-restx-boilerplate/**
+- Run the setup file by
+    - >**python3 setup.py**
     - **Note:**
         - Please run the file using Python version 3.9.10 or below. Requirements and Dependencies used in the project are not compatible with higher versions of python. To run a code with a specific version of python, use VS Code's **"Select Interpreter"** function.
 
-- At the __Name of your Project:__ input box, type the **\<foldername\>** that you want your project to be in.
-- Cd into the folder **cd \<foldername\>**
-- Run the file: **install.ps1**
+- At the __Name your Project:__ input box, type the **\<foldername\>** that you want your project to be in.
+- Cd into the folder by
+    - > **cd \<foldername\>**
+- Run the file: **install.ps1** by:
+    - > **./install.ps1**
     - The files for linux systems will be coming soon.
+    - In case of an error like this:
+    - > **File C:\Users\<Username>\<App Name>\install.ps1 cannot be loaded because the execution of scripts is disabled on this system. Please see "get-help about_signing" for more details.**
+    Run Powershell as an administrator and execute the following command:
+    - > **set-executionpolicy remotesigned**
+    
 - Set FLASK_APP: 
     - bash
             $ export FLASK_APP=hello
