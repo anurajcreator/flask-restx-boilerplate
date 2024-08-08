@@ -96,12 +96,13 @@ def setup_project():
         dest = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/temp_file"
         shutil.move(src, dest) 
 
-        print("Copying startup script (run.ps1). Please run post install.ps1 if it doesn't automatically run.")
+        # print("Copying startup script (run.ps1). Please run post install.ps1 if it doesn't automatically run.")
         
 
-        src = os.path.dirname(os.path.abspath('setup.py')) + "/run.ps1"
-        dest = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/run.ps1"
-        shutil.copy2(src, dest)
+        # src = os.path.dirname(os.path.abspath('setup.py')) + "/run.ps1"
+        # dest = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/run.ps1"
+        # shutil.copy2(src, dest)
+        
     except OSError as err:
         print("Error: % s" % err)
         error_oc = True
