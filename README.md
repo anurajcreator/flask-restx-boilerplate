@@ -71,7 +71,7 @@ This is a boilerplate for any flask_restx application.
 
     - flask db upgrade
     
->**db-stam head updated (allembic update)
+>**db-stamp head updated (allembic update)**
   
     - flask db stamp head
 
