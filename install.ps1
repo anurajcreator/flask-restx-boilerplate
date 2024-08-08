@@ -13,8 +13,8 @@ python -m pip install --upgrade pip
 python -m pip install -r .\requirements.txt
 
 
-Remove-Item filename
+Remove-Item temp_file
 
 Remove-Item install.ps1
 
-./run.ps1
+
