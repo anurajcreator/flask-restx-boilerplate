@@ -79,7 +79,7 @@ This is a boilerplate for any flask_restx application.
 ### _How to get started_?  
 - Clone the repository using **git clone https://github.com/anurajcreator/flask-restx-boilerplate**
 - Make a new folder using  **mkdir \<foldername\>**
-- Cd into the folder that you cloned **cd Api_Boilerplate/**
+- Cd into the folder that you cloned **cd flask-restx-boilerplate/**
 - Run the setup file **python3 setup.py**
 - At the __Name of your Project:__ input box, type the **\<foldername\>** that you created
 - Cd into the folder **cd \<foldername\>**
