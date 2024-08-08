@@ -145,7 +145,7 @@ This is a boilerplate for any flask_restx api based web application backend. Thi
     - > **flask run**
 
 
-### _Congratulations
+### Congratulations
 
 > **If you get the following output upon running:**
 
