@@ -3,6 +3,169 @@ import os, shutil, errno, subprocess, time, sys, itertools, threading
 POWERSHELL_PATH = "powershell.exe"
 
 
+def project_identity():
+    try:
+    
+        project_name  = input("Please name your project: >")
+        project_version = input("Project Version: >")
+        project_description = input("Project Description: >")
+
+        return project_name, project_version, project_description
+    
+    except Exception as e:
+
+        return f"err: {e}", f"err: {e}", f"err: {e}"
+        
+
+def environment_setup():
+    try:
+        master_password = input("Please set the master password for this project: >")
+
+        variables_status = {
+            "Database Encryption": False,
+            "Response Encryption": False,
+            "Mailgun Integration": False,
+            "Fast2SMS Integration": False,
+            "Database Setup": False,
+        }
+
+
+        print("\n\nPlease go over the following project settings before continuing. Choose a number to configure the feature status.\nPress 6 to Continue(Irreversible)\n__________________________________________________________________________________________________________________")
+        while True:
+            sys.stdout.write(f"1. Database Encryption: {variables_status['Database Encryption']}\n2. Response Encryption: {variables_status['Response Encryption']}\n3. Mailgun Integration: {variables_status['Mailgun Integration']}\n4. Fast2SMS Integration: {variables_status['Fast2SMS Integration']}\n5. Database Setup: {variables_status['Database Setup']}\n\n6. Continue(Irreversible)\n> ")
+            try:
+                choice = input()
+                if int(choice) not in range(1,7):
+                    sys.stdout.flush()
+                    sys.stdout.write("Choose an option between 1 and 6.\n")
+                    continue
+                
+                choice = int(choice)
+            
+            except Exception as e:
+                print("\nInput must be a number! Try again.\n")
+                continue
+            
+            if choice == 1:
+                sys.stdout.flush()
+                sys.stdout.write("This option controls whether the data stored in the database is encrypted using public and private key pairs. (T/F)?")
+                
+                while True:
+                    control = input()
+                    if control == 'T':
+                        variables_status['Database Encryption'] = True
+                        break
+                    elif control == 'F':
+                        variables_status['Database Encryption'] = False
+                        break
+                    else:
+                        sys.stdout.write("\nPlease Choose a value between T and F")
+                        continue
+
+            elif choice == 2:
+                sys.stdout.flush()
+                sys.stdout.write("This option controls whether the data sent to the client is encrypted using public and private key pairs. (T/F)?")
+                
+                while True:
+                    control = input()
+                    if control == 'T':
+                        variables_status['Response Encryption'] = True
+                        break
+                    elif control == 'F':
+                        variables_status['Response Encryption'] = False
+                        break
+                    else:
+                        sys.stdout.write("\nPlease Choose a value between T and F")
+                        continue
+
+            elif choice == 3:
+                sys.stdout.flush()
+                sys.stdout.write("This option controls whether the setup will ask for Mailgun Credentials during Install. (T/F)?")
+                
+                while True:
+                    control = input()
+                    if control == 'T':
+                        variables_status['Mailgun Integration'] = True
+                        break
+                    elif control == 'F':
+                        variables_status['Mailgun Integration'] = False
+                        break
+                    else:
+                        sys.stdout.write("\nPlease Choose a value between T and F")
+                        continue
+
+            elif choice == 4:
+                sys.stdout.flush()
+                sys.stdout.write("This option controls whether the setup will ask for Fast2SMS Credentials during Install. (T/F)?")
+                
+                while True:
+                    control = input()
+                    if control == 'T':
+                        variables_status['Fast2SMS Integration'] = True
+                        break
+                    elif control == 'F':
+                        variables_status['Fast2SMS Integration'] = False
+                        break
+                    else:
+                        sys.stdout.write("\nPlease Choose a value between T and F")
+                        continue
+
+            elif choice == 5:
+                sys.stdout.flush()
+                sys.stdout.write("This option controls whether the setup will ask for Database Credentials during Install. (T/F)?")
+                
+                while True:
+                    control = input()
+                    if control == 'T':
+                        variables_status['Database Setup'] = True
+                        break
+                    elif control == 'F':
+                        variables_status['Database Setup'] = False
+                        break
+                    else:
+                        sys.stdout.write("\nPlease Choose a value between T and F")
+                        continue
+            
+            confirm = 'N'
+            if choice == 6:
+
+                sys.stdout.write("\n\nPlease confirm the above changes and proceed with Installation: (Y/N)?")
+                
+                while True:
+                    control = input()
+
+                    if control == 'Y':
+                        confirm = control
+                        break
+                    elif control == 'N':
+                        confirm = control
+                        break
+                    else:
+                        sys.stdout.write("\nPlease Choose a value between Y and N")
+                        continue
+
+            if confirm == 'Y':
+                break
+            else:
+                sys.stdout.flush()
+                continue
+
+        
+
+        example_env = os.path.dirname(os.path.abspath('setup.py')) + f"/.env.example"
+        project_env = os.path.dirname(os.path.abspath('setup.py')) + f"/.env"
+        shutil.copy2(example_env, project_env)
+
+        
+        
+
+        
+
+    except Exception as e:
+        pass
+
+
+
 def setup_project():
     '''
     Sets Up the Flask_RestX-Boilerplate for a new project:
@@ -35,11 +198,12 @@ def setup_project():
     | $$$$$$$/|  $$$$$$/| $$| $$|  $$$$$$$| $$     | $$$$$$$/| $$|  $$$$$$$   |  $$$$/|  $$$$$$$   
     |_______/  \______/ |__/|__/ \_______/|__/     | $$____/ |__/ \_______/    \___/   \_______/ 
                                                    | $$
-                                                   |_$$                                                                                     
+                                                   |__/                                                                                     
     \n\n\n''')
     print("Welcome to Flask-RestX-Boilerplate Setup:")
-    print("Please name your project: >")
-    project_name  = input()
+    
+    project_name, project_version, project_description  = project_identity()
+    # environment_setup()
 
     src = os.path.dirname(os.path.abspath('setup.py')) + "/app"
     dest = path = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/app" 
@@ -73,6 +237,8 @@ def setup_project():
         src = os.path.dirname(os.path.abspath('setup.py')) + "/requirements.txt"
         dest = os.path.dirname(os.path.dirname(os.path.abspath('setup.py'))) + f"/{project_name}" + "/requirements.txt"
         shutil.copy2(src, dest)
+
+
 
         print("Copying Environment Files")
         
